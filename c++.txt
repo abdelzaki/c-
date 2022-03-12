@@ -1,0 +1,142 @@
+
+
+-string:
+	- the string is nothing but array of character where it ends with "/0" so the software can knows where it ends
+	- there are 3 way to define the string:
+		- 1 - char* p = "ahmed" : it would be stored in read memory so it is constant so the actual defination of this variable is const char* a = "ahmed\0"
+		- 2 char a[] = "ahmed" : the compiler would create an array of char and put the value in it that means this is read / write area in the memory
+		
+		- string a = "ahmed" : that is an class which has more capability on the string
+
+- malloc and new:
+	- both of them would allocate memory which it can be used but malloc wont call the constructor, the same goes for free and delete, only delete would call the destrcutor.
+	
+	- any time u call new u should call delete. and new[] should call delete[]
+
+- array:
+	- it is nothing but a contingious arra of memory with the same size 
+	
+	- if u want to pass array to a function:
+		void func(int *) or void func(int[]) both are the same 
+		when u call the function : func(&array1[0])
+		
+	- if u want to pass array by reference it is only possible if u define a function which takes fixed size area
+		void func(int(&arry)[4])
+		
+- I/O streaming:
+	- std::endl -> it flush the buffer
+
+
+
+- design rules:
+	
+	- abstraction:
+		- u seperate the interface from the implmentation 
+		- you should be  able to use the code without relying on the implementation
+	
+- Lvalue:
+	- something which can take reference from
+	- u can cast Lvalue reference to Rvalue using move ex: std::move()
+	
+- Rvalue:
+	- anything which is not Lvaue
+	- && to reference Rvalue
+	
+		
+- class:
+	- define the class by writing class myclass {};  -> it should end with ; as it is a statment
+	- class has members which is a date member "variable" or  member functions "constructor, destructore or method"
+	- any method that does not change a member function should be declared as :const
+		ex: double getValue() const;
+	- 
+	
+- access control:
+	- there are three types of access controll public, private and protected
+	- the default one is private if u didnot define anything
+	
+- this keyword:
+	- it represent the the object which instanced the class
+	- if a method takes an object and u want to call this method from the class u use *this
+	- ex: 1.1 
+	
+- contstructor:
+	- it should have the same name as the class
+	- if the constructor doesnot take any arrgument we call it a default constructor 
+	
+- copy sonstructor:
+	- it takes const reference to the source object
+	- ex: SpreadsheetCell(const SpreadsheetCell& src);
+	- it is called:
+		- when u pass an object to a function or mehtod
+		- when u return object from a function
+		
+		
+- Initializer-List Constructors:	
+	- An initializer-list constructor is a constructor with an std::initializer_list<T> as first parameter,
+	
+- Assignment Operator:
+	- it is called when u use "=" and it is not in declaration phase
+	- ex: 
+		SpreadsheetCell myCell(5);
+		SpreadsheetCell anotherCell(myCell);
+		SpreadsheetCell aThirdCell = myCell; that is a copy constructor as the = is with defination stage
+		
+- const Reference Data Members:
+	- There is an important difference between using a const reference versus a non-const reference. The const reference SpreadsheetApplication data member can only be used to call const methods.
+	
+- reference:
+	- it must be initialized once it is created
+	- You cannot create a reference to an unnamed value
+	- int& unnamedRef1 = 5; // DOES NOT COMPILE
+	- const int& unnamedRef2 = 5; // Works as expected
+	
+- const keyword:
+	- the value of the pointer is constant:
+	ex:
+		const int* ip;
+		ip = new int[10];
+		ip[4] = 5; //error
+	
+	- the pointer points to constant area:
+	- ex:
+		- int* const ip = new int[10];
+		- ip[4] = 5; //ok
+		
+- container:
+	- generic data type that are useful for storing collection of data there are 16 containers with 4 types:
+		- sequential: vector, list, array, 
+		- assoctiative: map, set
+		- container adaptors: stack, queue
+
+	- container use value semmantic pass value be reference
+	
+	- container has methods:
+		- Move Constructor : Used when the source element is an rvalue, and will be destroyed after the construction
+		- Copy Constructor : Used every time you insert an element, except when using an emplace method (discussed
+
+- iterators:
+	- pointer to a specific element of the container
+	- Every container class in the Standard Library that supports iterators provides public type aliases for its iterator types,     called 	iterator and const_iterator
+	- int arry[] = {1, 2, 3, 4, /* end */ }; the end refere to past one from the actual range
+	- iteraor has:
+		- begin : return the first element
+		- end : return past the end by one
+		- cbegin : const first element
+		
+- vector:
+	- contructor in vector:
+		- default: vector<int> intVector; // Creates a vector of ints with zero elements
+		- vector<int> intVector(10, 100); // Creates vector of 10 ints with value 100
+		- vector<int> intVector2{ 1, 2, 3, 4, 5, 6 }; using with initialize list
+		
+		- iterator in vectors:
+			- for (const auto& element : stringVector)
+			- 
+		
+		- to add element:
+			- vec.push_back(myElement)
+		
+		
+		
+		
+	
