@@ -13,6 +13,19 @@
 	
 	- any time u call new u should call delete. and new[] should call delete[]
 
+- pointers:
+	- as a rule always use smart pointers 
+	- unique Pointers are pinter which doesnot have copy constructor
+	- ex:
+		- auto myUniPointer = make_unique<int>(12)
+		- this would create a pointe and allocate 12 integer size for this pointer
+		- u can pass unique Pointer with move semantic
+		- unique_ptr newPointer = move(oldPointer);
+		
+	- shared pointers are the same no big difference in the semantic rather than u just have to use shared instead of unique
+	
+
+
 - array:
 	- it is nothing but a contingious arra of memory with the same size 
 	
@@ -58,7 +71,12 @@
 	- it represent the the object which instanced the class
 	- if a method takes an object and u want to call this method from the class u use *this
 	- ex: 1.1 
-	
+
+- Initializer-List Constructors:	
+	- An initializer-list constructor is a constructor with an std::initializer_list<T> as first parameter,
+	- u can call size on the list to get the size and u can use loop range based 
+	- for (auto i : args)
+
 - contstructor:
 	- it should have the same name as the class
 	- if the constructor doesnot take any arrgument we call it a default constructor 
@@ -69,26 +87,40 @@
 	- it is called:
 		- when u pass an object to a function or mehtod
 		- when u return object from a function
-		
-		
-- Initializer-List Constructors:	
-	- An initializer-list constructor is a constructor with an std::initializer_list<T> as first parameter,
+	- it can return anything as it is constrcutor
 	
+			
 - Assignment Operator:
 	- it is called when u use "=" and it is not in declaration phase
 	- ex: 
 		SpreadsheetCell myCell(5);
 		SpreadsheetCell anotherCell(myCell);
 		SpreadsheetCell aThirdCell = myCell; that is a copy constructor as the = is with defination stage
+		- classname& operator=(const classname& rhs); at the end u have to return *this
+		- when u return from the function in which u return an obect 
+		- the copy construcotr would be so or so invocaed in order to create the obejct which we should return,
+		- then the operator or the copy constrcutor would be invoked to create the other object
 		
 - const Reference Data Members:
-	- There is an important difference between using a const reference versus a non-const reference. The const reference SpreadsheetApplication data member can only be used to call const methods.
-	
+	- There is an important difference between using a const object versus a non-const object. The const object can call only const methods.
+
+- static:
+	- it is a way to create globaö variable but with name space of the class.
+	- u declare the variable in .h and define the variable in .c file
+
+
 - reference:
 	- it must be initialized once it is created
 	- You cannot create a reference to an unnamed value
 	- int& unnamedRef1 = 5; // DOES NOT COMPILE
 	- const int& unnamedRef2 = 5; // Works as expected
+	- if u define function parameter as reference the compiler would pass the address of the variable so u can perform changes on the variables which would affect the input also
+	
+	*important*
+	- return be reference means the function would return the same object and it wont create a new one 
+		ex:
+			obj& function(obj&) {return &obj}
+	- u have to remember although the function would return a new object if u want to have the same object u have to define the variable which would take it also as reference 
 	
 - const keyword:
 	- the value of the pointer is constant:
@@ -101,6 +133,18 @@
 	- ex:
 		- int* const ip = new int[10];
 		- ip[4] = 5; //ok
+	
+	- if u define a function which take constant means that the function wont change the object but the object should not be a constant object
+
+- inheritance:
+	- it is a way to extend the class, u make the child class is a parent class but with more capability
+	- a pointer of type base can point to both type base and derived
+	- only method which are declared virtual can be good overwritten in the derivd class.In the derived class u delcare the method as virtual and u mark it as override
+	- calling of construcor is first parent and then the derived class
+
+
+
+
 		
 - container:
 	- generic data type that are useful for storing collection of data there are 16 containers with 4 types:
@@ -108,7 +152,7 @@
 		- assoctiative: map, set
 		- container adaptors: stack, queue
 
-	- container use value semmantic pass value be reference
+	- container use value semmantic pass value be value so when u add element to the container u add a copy of the cotainer not the actuall     element, in case of emplace method u add the actual object not a copy from the object
 	
 	- container has methods:
 		- Move Constructor : Used when the source element is an rvalue, and will be destroyed after the construction
@@ -116,10 +160,12 @@
 
 - iterators:
 	- pointer to a specific element of the container
-	- Every container class in the Standard Library that supports iterators provides public type aliases for its iterator types,     called 	iterator and const_iterator
+	- Every container class in the Standard Library that supports iterators provides public type aliases for its iterator types, called 	iterator and const_iterator
+	- example of an iterator of vector which has integers values
+		std::vector<int>iterator 
 	- int arry[] = {1, 2, 3, 4, /* end */ }; the end refere to past one from the actual range
 	- iteraor has:
-		- begin : return the first element
+		- begin : return the first element which is a refernce to this element if u made change to this element u change the element in the container
 		- end : return past the end by one
 		- cbegin : const first element
 		
@@ -128,15 +174,44 @@
 		- default: vector<int> intVector; // Creates a vector of ints with zero elements
 		- vector<int> intVector(10, 100); // Creates vector of 10 ints with value 100
 		- vector<int> intVector2{ 1, 2, 3, 4, 5, 6 }; using with initialize list
+		- to access elements in vectors u can use at or []
+			at: will perform boundary check
 		
 		- iterator in vectors:
 			- for (const auto& element : stringVector)
-			- 
+			- this gives the reference to the element because u used &  any changes in the element would be also inside the vector
+			- without & u takes a copy of the element not the element it self.
+		- if u used begin and end it return an address u have to reference it to change thte element
 		
 		- to add element:
 			- vec.push_back(myElement)
-		
-		
-		
-		
+			
+		- u can use iterator to iterate over the element and reference the iterator to change the elements or u can use range loop base with auto to access the element
+
+- list:
+	- it support constant time insertion and deletation
+	- it does not support random access of element u donot have operator like []
+	- push_back: add element to the end of the list
+	- push_front : add element to the beging of the list
+	- front: return the first element
+	- back: return the last element of the list
+	- pop_back: remove the last element in the list
+	- pop_front: remove the first element in the list
 	
+- array:
+	- it is declared in the header file <array>
+	- it has size method to get the size of the array and it supported random access using [] and at 
+	
+	
+- queue:
+	- queue it is a template to support first in first out method
+	- push to add element to the tail 
+	- pop remove the element from the front
+	- to retrive the element use front and back u get reference to the element
+
+- Map:
+	- pair is the ability to group two different element together pair<string,in>mypair("hello",5)
+	- if u want to add an element to the map u use insert which take initalizier list or pair and return pair of the element and bool to represent if the insertion successed
+	- insert_or_assign method would overwrite the element if the element exist u can use [] operator it works as insert_or_assign operator
+	if u want to know if an element exist use find which would return the iterator or end
+
