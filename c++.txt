@@ -1,5 +1,4 @@
 
-
 -string:
 	- the string is nothing but array of character where it ends with "/0" so the software can knows where it ends
 	- there are 3 way to define the string:
@@ -7,6 +6,52 @@
 		- 2 char a[] = "ahmed" : the compiler would create an array of char and put the value in it that means this is read / write area in the memory
 		
 		- string a = "ahmed" : that is an class which has more capability on the string
+		
+- streaming:
+	- c++ provide a stream interface to communicate with input output interfaces
+	- because it is only interface we dont care if it is keyboard or console or internet u can direct the i/o to any thing
+	
+	ios: it is the base for the input output 
+	ifstream: input operation
+	ostream: output operation
+	fstream: input output operation
+	cin: connected to standard input and it is instance of istream
+	cout: connected to standard output it is instance of ostream
+	std::cin >> var : would take an input from the user and save it in the var, it read the data which the user has entered until the user press enter
+	
+	- to format string:
+		std::cout<<std::boolalpha 
+		std::cout.setf(std::ios::boolalpha)	
+		std::dec
+		std::hex
+		std::oct
+
+- variables:
+	- declaration is the process of telling the compiler the name and the type but u dont occupy any memory
+		ex: extern int i;
+		
+	- defination: it is the process of occupying the memory 
+
+
+
+type deducation:
+	- it does not matter if u pass reference or normal value that doesnot play a role in type deducation
+	
+	template<typename T>
+	void f(T& param);
+		here u declare the function would take a reference in this case the type of the parameter would be reserved and it the type is const the const part would be reserved.
+		
+	- template<typename T>
+	- void f(T& param);
+		it would always be a constant as u expect an refernce constant the parameter wont be copied 
+
+	- template<typename T>
+	   void f(T&& param);
+	if u pass lvalue reference it would considered as lvalue reference if u pass rvalue reference it woiuld be considered rvalue reference
+		
+	- template<typename T>
+	- void f(T param);
+	then it doesnot matter if u pass const or reference a copy would be maid as u didnot define that a reference or const is expected
 
 - malloc and new:
 	- both of them would allocate memory which it can be used but malloc wont call the constructor, the same goes for free and delete, only delete would call the destrcutor.
@@ -135,6 +180,9 @@
 		- ip[4] = 5; //ok
 	
 	- if u define a function which take constant means that the function wont change the object but the object should not be a constant object
+	
+	- if u want to limit the scope of the const to a class u should make it member function and to make one copy of it u have to make it static but u have to define it in the .c file
+	
 
 - inheritance:
 	- it is a way to extend the class, u make the child class is a parent class but with more capability
