@@ -1,4 +1,34 @@
+Programming: Principles and Practice Using C++
 
+-types:
+	- char: it is 8 bits which can have 255 value like 'a','1';
+	- integer: 1 
+	- u can find the size of a type using sizeof an example sizeof(int)
+	
+	
+	bool:
+		- the type is defined by bool
+		- u can convert from integer to bool and the other way around
+		- u can make sum and substraction on bool as it would be converted 1 and 0 if u then store the value back to the variable it would be considered as true and false 
+		
+	char:
+		- it is represented as 8 bits which means it can have 256 values
+		- char belongs to the integer group which means u can perform mathitcal operation on them " + and - "
+		- u can covert the char to integer 
+		- '1' if u changed it to ineger u wont get 1 u will get 48
+		- int {'1'} would yield 48 
+		- c - '0'  to get the integer value form getchar function  
+
+- Initialization:
+	- there are 4 type pf intialization 
+	T x {a} -> no narrowing down and the best way to go
+	T x (a) -> using constructor
+	T x = a -> using assigning 
+	T x = {} -> using assiging with initalization list
+	
+	
+	
+	
 -string:
 	- the string is nothing but array of character where it ends with "/0" so the software can knows where it ends
 	- there are 3 way to define the string:
@@ -190,10 +220,11 @@ type deducation:
 	- only method which are declared virtual can be good overwritten in the derivd class.In the derived class u delcare the method as virtual and u mark it as override
 	- calling of construcor is first parent and then the derived class
 
+- stadanrd Library:
+	- it uses the namespace std so to use an element in the standard library u have to use std::
 
 
 
-		
 - container:
 	- generic data type that are useful for storing collection of data there are 16 containers with 4 types:
 		- sequential: vector, list, array, 
@@ -216,7 +247,17 @@ type deducation:
 		- begin : return the first element which is a refernce to this element if u made change to this element u change the element in the container
 		- end : return past the end by one
 		- cbegin : const first element
-		
+
+- algoritms:
+	- they woron on iterators
+	- the header file is <algoritms>
+	find:
+		- u search if an element is in the containter it take a range 
+		- it return the iteratoe if the iterator is avaliable of the end iterator 
+		- auto it = find(cbegin(myvector),cend(myvector),theElementUareIntertedIn);
+
+
+	
 - vector:
 	- contructor in vector:
 		- default: vector<int> intVector; // Creates a vector of ints with zero elements
