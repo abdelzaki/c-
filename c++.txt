@@ -197,6 +197,8 @@ type deducation:
 			obj& function(obj&) {return &obj}
 	- u have to remember although the function would return a new object if u want to have the same object u have to define the variable which would take it also as reference 
 	
+	- const reference means u want the function not to copy the object but u want it in order to save time not because u want to change the object
+	
 - const keyword:
 	- the value of the pointer is constant:
 	ex:
@@ -213,11 +215,14 @@ type deducation:
 	
 	- if u want to limit the scope of the const to a class u should make it member function and to make one copy of it u have to make it static but u have to define it in the .c file
 	
+	- constexpr:
+		means u want to the value to be computed in the compilation time not in run time the expression should be simple
+	
 
 - inheritance:
 	- it is a way to extend the class, u make the child class is a parent class but with more capability
 	- a pointer of type base can point to both type base and derived
-	- only method which are declared virtual can be good overwritten in the derivd class.In the derived class u delcare the method as virtual and u mark it as override
+	- only method which are declared virtual can be good overwritten in the derivd class.In the derived class u delcare the method as virtual and u mark it as override, it works only with pointer to an object.
 	- calling of construcor is first parent and then the derived class
 
 - stadanrd Library:
