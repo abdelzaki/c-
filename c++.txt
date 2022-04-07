@@ -40,11 +40,15 @@ Programming: Principles and Practice Using C++
 - streaming:
 	- c++ provide a stream interface to communicate with input output interfaces
 	- because it is only interface we dont care if it is keyboard or console or internet u can direct the i/o to any thing
+	- u use the header file iostream to include both input and output header files
+	- the stream tends to buffer data in order to send the data u can call flush(), or calling cin would case the output buffer to flush
+	- using cin would read the data and store data in a variable according to the variable type and it read till the white space u cannot read a whole line using this method
+	- cin.getline() -> it is used to read a line till end of line character
 	
 	ios: it is the base for the input output 
-	ifstream: input operation
-	ostream: output operation
-	fstream: input output operation
+	ifstream: input operation  for a file
+	ofstream: output operation	outout operation for a file
+	fstream: input output operation for a file
 	cin: connected to standard input and it is instance of istream
 	cout: connected to standard output it is instance of ostream
 	std::cin >> var : would take an input from the user and save it in the var, it read the data which the user has entered until the user press enter
@@ -279,6 +283,9 @@ type deducation:
 		
 		- to add element:
 			- vec.push_back(myElement)
+		- to clear the vector u can call .clear()
+		
+		- to iterator starting from the second element std::next()		
 			
 		- u can use iterator to iterate over the element and reference the iterator to change the elements or u can use range loop base with auto to access the element
 
