@@ -26,17 +26,24 @@ Programming: Principles and Practice Using C++
 	T x = a -> using assigning 
 	T x = {} -> using assiging with initalization list
 	
-	
-	
-	
 -string:
 	- the string is nothing but array of character where it ends with "/0" so the software can knows where it ends
 	- there are 3 way to define the string:
-		- 1 - char* p = "ahmed" : it would be stored in read memory so it is constant so the actual defination of this variable is const char* a = "ahmed\0"
-		- 2 char a[] = "ahmed" : the compiler would create an array of char and put the value in it that means this is read / write area in the memory
-		
-		- string a = "ahmed" : that is an class which has more capability on the string
-		
+		- 1 - char* p = "ahmed" : it is c style string
+			- it is a pointer which points to the string which is stored in the code section
+			- it would be stored in read memory so it is constant so the actual defination of this variable is const char* a = "ahmed\0"
+			- sizeof() -> would give the size of the pointer which might br 4 or 8 or 2 depending of the system
+		- 2 char a[] = "ahmed": it is c style string
+			- it is an array
+			- the compiler would create an array of char and put the value in it that means this is read / write area in the memory
+			- sizeof() -> would give the size of the string + null terminated
+			- u can use extended string to print the string with some features
+				- const char *var = R"-(any thing / \ u can write" with space ) and without )-";
+			- string it automatically conside const char * if u want it to be defined as string u have to add "s add the end
+			- u can convert string to integer using the following methods
+				- std::string_literals;
+				- auto string = "anything"s; -> this would be consided as string
+		- string a = "ahmed" : that is an class which has more capability on the string	
 - streaming:
 	- c++ provide a stream interface to communicate with input output interfaces
 	- because it is only interface we dont care if it is keyboard or console or internet u can direct the i/o to any thing
@@ -60,15 +67,46 @@ Programming: Principles and Practice Using C++
 		std::hex
 		std::oct
 
+- allocation of memory:
+	- if u want to allocate memory in heap u use new keyword
+	- new would create a variable in the stack with points to the heap 
+	- after using the variable u have to delete the variavle using delete keyword 
+	- new and delete call the constrcutor and destructor
+	- ex:
+		int *x = new int;
+		delete x;
+		x = nullptr;
+	- u can allocate array. which is a pointer which point to the first element in the array
+	- it has the advantage that u can create it at the run time but once u create it u cannot change it"s size 
+	- ex:
+		- int *x = new int[5];
+		- delete [] x;
+		- x = nullptr;
+
+- malloc and new:
+	- both of them would allocate memory which it can be used but malloc wont call the constructor, the same goes for free and delete, only delete would call the destrcutor.
+	- any time u call new u should call delete. and new[] should call delete[]
+
+- pointers:
+	- as a rule always use smart pointers 
+	- unique Pointers are pinter which doesnot have copy constructor
+	- ex:
+		- auto myUniPointer = make_unique<int>(12)
+		- this would create a pointe and allocate 12 integer size for this pointer
+		- u can pass unique Pointer with move semantic
+		- unique_ptr newPointer = move(oldPointer);
+		
+	- shared pointers are the same no big difference in the semantic rather than u just have to use shared instead of unique
+	- ex:
+		- std::shared_ptr<Entity> smartptr1 = std::make_shared<Entity>();
+		- std::shared_ptr<Entity> smartptr2(smartptr1); 
+
+
 - variables:
 	- declaration is the process of telling the compiler the name and the type but u dont occupy any memory
-		ex: extern int i;
-		
+		ex: extern int i;	
 	- defination: it is the process of occupying the memory 
-
-
-
-type deducation:
+- type deducation:
 	- it does not matter if u pass reference or normal value that doesnot play a role in type deducation
 	
 	template<typename T>
@@ -87,24 +125,6 @@ type deducation:
 	- void f(T param);
 	then it doesnot matter if u pass const or reference a copy would be maid as u didnot define that a reference or const is expected
 
-- malloc and new:
-	- both of them would allocate memory which it can be used but malloc wont call the constructor, the same goes for free and delete, only delete would call the destrcutor.
-	
-	- any time u call new u should call delete. and new[] should call delete[]
-
-- pointers:
-	- as a rule always use smart pointers 
-	- unique Pointers are pinter which doesnot have copy constructor
-	- ex:
-		- auto myUniPointer = make_unique<int>(12)
-		- this would create a pointe and allocate 12 integer size for this pointer
-		- u can pass unique Pointer with move semantic
-		- unique_ptr newPointer = move(oldPointer);
-		
-	- shared pointers are the same no big difference in the semantic rather than u just have to use shared instead of unique
-	
-
-
 - array:
 	- it is nothing but a contingious arra of memory with the same size 
 	
@@ -117,8 +137,6 @@ type deducation:
 		
 - I/O streaming:
 	- std::endl -> it flush the buffer
-
-
 
 - design rules:
 	
@@ -139,8 +157,7 @@ type deducation:
 	- define the class by writing class myclass {};  -> it should end with ; as it is a statment
 	- class has members which is a date member "variable" or  member functions "constructor, destructore or method"
 	- any method that does not change a member function should be declared as :const
-		ex: double getValue() const;
-	- 
+		ex: double getValue() const; 
 	
 - access control:
 	- there are three types of access controll public, private and protected
@@ -149,7 +166,6 @@ type deducation:
 - this keyword:
 	- it represent the the object which instanced the class
 	- if a method takes an object and u want to call this method from the class u use *this
-	- ex: 1.1 
 
 - Initializer-List Constructors:	
 	- An initializer-list constructor is a constructor with an std::initializer_list<T> as first parameter,
@@ -160,7 +176,7 @@ type deducation:
 	- it should have the same name as the class
 	- if the constructor doesnot take any arrgument we call it a default constructor 
 	
-- copy sonstructor:
+- copy constructor:
 	- it takes const reference to the source object
 	- ex: SpreadsheetCell(const SpreadsheetCell& src);
 	- it is called:
