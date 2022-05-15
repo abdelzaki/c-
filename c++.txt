@@ -1,11 +1,24 @@
 
--string:
+- string:
 	- the string is nothing but array of character where it ends with "/0" so the software can knows where it ends
 	- there are 3 way to define the string:
-		- 1 - char* p = "ahmed" : it would be stored in read memory so it is constant so the actual defination of this variable is const char* a = "ahmed\0"
-		- 2 char a[] = "ahmed" : the compiler would create an array of char and put the value in it that means this is read / write area in the memory
-		
+		- 1 - char* p = "ahmed" : it is c style string
+			- it is a pointer which points to the string which is stored in the code section
+			- it would be stored in read memory so it is constant so the actual defination of this variable is const char* a = "ahmed\0"
+			- sizeof() -> would give the size of the pointer which might br 4 or 8 or 2 depending of the system
+		- 2 char a[] = "ahmed": it is c style string
+			- it is an array
+			- the compiler would create an array of char and put the value in it that means this is read / write area in the memory
+			- sizeof() -> would give the size of the string + null terminated
+			- u can use extended string to print the string with some features
+				- const char *var = R"-(any thing / \ u can write" with space ) and without )-";
+			- string it automatically conside const char * if u want it to be defined as string u have to add "s add the end
+			- u can convert string to integer using the following methods
+				- std::string_literals;
+				- auto string = "anything"s; -> this would be consided as string
+
 		- string a = "ahmed" : that is an class which has more capability on the string
+
 		
 - streaming:
 	- c++ provide a stream interface to communicate with input output interfaces
@@ -31,7 +44,6 @@
 		ex: extern int i;
 		
 	- defination: it is the process of occupying the memory 
-
 
 
 type deducation:
