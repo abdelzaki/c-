@@ -1,5 +1,32 @@
+Programming: Principles and Practice Using C++
 
-- string:
+-types:
+	- char: it is 8 bits which can have 255 value like 'a','1';
+	- integer: 1 
+	- u can find the size of a type using sizeof an example sizeof(int)
+	
+	
+	bool:
+		- the type is defined by bool
+		- u can convert from integer to bool and the other way around
+		- u can make sum and substraction on bool as it would be converted 1 and 0 if u then store the value back to the variable it would be considered as true and false 
+		
+	char:
+		- it is represented as 8 bits which means it can have 256 values
+		- char belongs to the integer group which means u can perform mathitcal operation on them " + and - "
+		- u can covert the char to integer 
+		- '1' if u changed it to ineger u wont get 1 u will get 48
+		- int {'1'} would yield 48 
+		- c - '0'  to get the integer value form getchar function  
+
+- Initialization:
+	- there are 4 type pf intialization 
+	T x {a} -> no narrowing down and the best way to go
+	T x (a) -> using constructor
+	T x = a -> using assigning 
+	T x = {} -> using assiging with initalization list
+	
+-string:
 	- the string is nothing but array of character where it ends with "/0" so the software can knows where it ends
 	- there are 3 way to define the string:
 		- 1 - char* p = "ahmed" : it is c style string
@@ -16,18 +43,19 @@
 			- u can convert string to integer using the following methods
 				- std::string_literals;
 				- auto string = "anything"s; -> this would be consided as string
-
-		- string a = "ahmed" : that is an class which has more capability on the string
-
-		
+		- string a = "ahmed" : that is an class which has more capability on the string	
 - streaming:
 	- c++ provide a stream interface to communicate with input output interfaces
 	- because it is only interface we dont care if it is keyboard or console or internet u can direct the i/o to any thing
+	- u use the header file iostream to include both input and output header files
+	- the stream tends to buffer data in order to send the data u can call flush(), or calling cin would case the output buffer to flush
+	- using cin would read the data and store data in a variable according to the variable type and it read till the white space u cannot read a whole line using this method
+	- cin.getline() -> it is used to read a line till end of line character
 	
 	ios: it is the base for the input output 
-	ifstream: input operation
-	ostream: output operation
-	fstream: input output operation
+	ifstream: input operation  for a file
+	ofstream: output operation	outout operation for a file
+	fstream: input output operation for a file
 	cin: connected to standard input and it is instance of istream
 	cout: connected to standard output it is instance of ostream
 	std::cin >> var : would take an input from the user and save it in the var, it read the data which the user has entered until the user press enter
@@ -179,6 +207,8 @@ type deducation:
 			obj& function(obj&) {return &obj}
 	- u have to remember although the function would return a new object if u want to have the same object u have to define the variable which would take it also as reference 
 	
+	- const reference means u want the function not to copy the object but u want it in order to save time not because u want to change the object
+	
 - const keyword:
 	- the value of the pointer is constant:
 	ex:
@@ -195,17 +225,21 @@ type deducation:
 	
 	- if u want to limit the scope of the const to a class u should make it member function and to make one copy of it u have to make it static but u have to define it in the .c file
 	
+	- constexpr:
+		means u want to the value to be computed in the compilation time not in run time the expression should be simple
+	
 
 - inheritance:
 	- it is a way to extend the class, u make the child class is a parent class but with more capability
 	- a pointer of type base can point to both type base and derived
-	- only method which are declared virtual can be good overwritten in the derivd class.In the derived class u delcare the method as virtual and u mark it as override
+	- only method which are declared virtual can be good overwritten in the derivd class.In the derived class u delcare the method as virtual and u mark it as override, it works only with pointer to an object.
 	- calling of construcor is first parent and then the derived class
 
+- stadanrd Library:
+	- it uses the namespace std so to use an element in the standard library u have to use std::
 
 
 
-		
 - container:
 	- generic data type that are useful for storing collection of data there are 16 containers with 4 types:
 		- sequential: vector, list, array, 
@@ -228,7 +262,17 @@ type deducation:
 		- begin : return the first element which is a refernce to this element if u made change to this element u change the element in the container
 		- end : return past the end by one
 		- cbegin : const first element
-		
+
+- algoritms:
+	- they woron on iterators
+	- the header file is <algoritms>
+	find:
+		- u search if an element is in the containter it take a range 
+		- it return the iteratoe if the iterator is avaliable of the end iterator 
+		- auto it = find(cbegin(myvector),cend(myvector),theElementUareIntertedIn);
+
+
+	
 - vector:
 	- contructor in vector:
 		- default: vector<int> intVector; // Creates a vector of ints with zero elements
@@ -245,6 +289,9 @@ type deducation:
 		
 		- to add element:
 			- vec.push_back(myElement)
+		- to clear the vector u can call .clear()
+		
+		- to iterator starting from the second element std::next()		
 			
 		- u can use iterator to iterate over the element and reference the iterator to change the elements or u can use range loop base with auto to access the element
 
