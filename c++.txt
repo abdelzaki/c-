@@ -1,5 +1,5 @@
 Programming: Principles and Practice Using C++
-- Concept:
+- Concepts:
 	- c++ is a superset of c means it can anything which c can do plus extra abilities
 	- it is called c with class 
 	- the modern c++ is starting from c++11
@@ -8,8 +8,7 @@ Programming: Principles and Practice Using C++
 		- class: constructor, method, attribute
 		- Template: general programming
 		- stl: the standard template where string, map, vector is implemeneted
-		
--types:
+- types:
 	- char: it is 8 bits which can have 255 value like 'a','1';
 	- integer: 1 
 	- u can find the size of a type using sizeof an example sizeof(int)
@@ -29,13 +28,177 @@ Programming: Principles and Practice Using C++
 	T x {a} -> no narrowing down and the best way to go
 	T x (a) -> using constructor
 	T x = a -> using assigning 
-	T x = {} -> using assiging with initalization list
+	T x = {} -> using assiging with initalization list	
+- variables:
+	- declaration is the process of telling the compiler the name and the type but u dont occupy any memory
+		- ex: 
+			- extern int i;
+			- void function_1 (void);
+			- class Widget;
+	- defination: it is the process of occupying the memory 
+		- ex:
+			- int x;
+			- int function_1(void){ return 1;}
+	- assigning:
+		- ex:
+			- Widget w1; -> default constructor
+			- widget w2(w1); -> copy constructore
+			- w1 = w2; -> copy assigment operator
+			- Widget w3 = w1 -> copy constructor
+- Lvalue:
+	- something which can take reference from
+	- u can cast Lvalue reference to Rvalue using move ex: std::move()
+- Rvalue:
+	- anything which is not Lvaue
+	- && to reference Rvalue	
+- reference:
+	- it must be initialized once it is created
+	- You cannot create a reference to an unnamed value
+	- int& unnamedRef1 = 5; // DOES NOT COMPILE
+	- const int& unnamedRef2 = 5; // Works as expected
+	- if u define function parameter as reference the compiler would pass the address of the variable so u can perform changes on the variables which would affect the input also
+	
+	*important*
+	- return be reference means the function would return the same object and it wont create a new one 
+	- you should not return an object which would not be exists after calling the function like a local variable inside the function  
+		ex:
+			obj& function(obj&) {return &obj}
+	- u have to remember although the function would return a new object if u want to have the same object u have to define the variable which would take it also as reference 
+	- const reference means u want the function not to copy the object but u want it in order to save time not because u want to change the object
+- const keyword:
+	- the value of the pointer is constant:
+	ex:
+		const int* ip;
+		ip = new int[10];
+		ip[4] = 5; //error	
+	- the pointer points to constant area:
+	- ex:
+		- int* const ip = new int[10];
+		- ip[4] = 5; //ok
+	- if u define a function which take constant means that the function wont change the object but the object should not be a constant object
+	- if u want to limit the scope of the const to a class u should make it member function and to make one copy of it u have to make it static but u have to define it in the .c file
+	- constexpr:
+		means u want to the value to be computed in the compilation time not in run time the expression should be simple
+- allocation of memory:
+	- if u want to allocate memory in heap u use new keyword
+	- new would create a variable in the stack with points to the heap 
+	- after using the variable u have to delete the variavle using delete keyword 
+	- new and delete call the constrcutor and destructor
+	- ex:
+		int *x = new int;
+		delete x;
+		x = nullptr;
+	- u can allocate array. which is a pointer which point to the first element in the array
+	- it has the advantage that u can create it at the run time but once u create it u cannot change it"s size 
+	- ex:
+		- int *x = new int[5];
+		- delete [] x;
+		- x = nullptr;
+- malloc and new:
+	- both of them would allocate memory which it can be used but malloc wont call the constructor, the same goes for free and delete, only delete would call the destrcutor.
+	- any time u call new u should call delete. and new[] should call delete[]
+- pointers:
+	- as a rule always use smart pointers 
+	- unique Pointers are pinter which doesnot have copy constructor
+	- ex:
+		- auto myUniPointer = make_unique<int>(12)
+		- this would create a pointe and allocate 12 integer size for this pointer
+		- u can pass unique Pointer with move semantic
+		- unique_ptr newPointer = move(oldPointer);	
+	- shared pointers are the same no big difference in the semantic rather than u just have to use shared instead of unique
+	- ex:
+		- std::shared_ptr<Entity> smartptr1 = std::make_shared<Entity>();
+		- std::shared_ptr<Entity> smartptr2(smartptr1); 
+- class:
+	- define the class by writing class myclass {};  -> it should end with ; as it is a statment
+	- class has members which is a date member "variable" or  member functions "constructor, destructore or method"
+	- any method that does not change a member function should be declared as :const
+		ex: double getValue() const; 
+- access control:
+	- there are three types of access controll public, private and protected
+	- the default one is private if u didnot define anything
+- this keyword:
+	- it represent the the object which instanced the class
+	- if a method takes an object and u want to call this method from the class u use *this
+- contstructor:
+	- it should have the same name as the class
+	- if the constructor doesnot take any arrgument we call it a default constructor 
+- Constructor Initializers:
+	- u use it to initialize data member of the class as the class have to initilaize the data member befor calling the construtor. using Constructor Initializers u make sure that the data member would be right initilized with the right values.
+	- very important rule the data is initilized with the order of the defination of the class not with the order they are calles from the the constructor 
+- Initializer-List Constructors:	
+	- An initializer-list constructor is a constructor with an std::initializer_list<T> as first parameter, u have to include <initializer_list> header
+	- u can call size on the list to get the size and u can use loop range based 
+	- for (auto& i : args)
+- copy constructor:
+	- it takes const reference to the source object
+	- ex: SpreadsheetCell(const SpreadsheetCell& src);
+	- it is called:
+		- when u pass an object to a function or method by value
+		- when u return object from a function
+		- u can call copy constructor explicity
+		- ex:
+			- SpreadsheetCell myCell1(4);
+			- SpreadsheetCell myCell2(myCell1); 
+	- it cannot return anything as it is constrcutor
+- Assignment Operator:
+	- it is called when u use "=" and it is not in declaration phase
+	- ex: 
+		SpreadsheetCell myCell(5);
+		SpreadsheetCell anotherCell(myCell);
+		SpreadsheetCell aThirdCell = myCell; that is a copy constructor as the = is with defination stage
+		aThirdCell = myCell; here it is copy assign as the object was already created before u call the assign operator 
+		- classname& operator=(const classname& rhs); at the end u have to return *this
+		- when u return from the function in which u return an obect 
+		- the copy construcotr would be so or so invocaed in order to create the obejct which we should return,
+		- then the operator or the copy constrcutor would be invoked to create the other object	
+- destructor:
+	- it is called when the object goes out of the scope 
+	- if u use pointer to the stack then when u call delete 
+	- with smart pointer it is called automatically  
+- const Reference Data Members:
+	- There is an important difference between using a const object versus a non-const object. The const object can call only const methods.
+- static:
+	- it is a way to create globaö variable but with name space of the class.
+	- u declare the variable in .h and define the variable in .c file
+
+- inheritance:
+	- it is a way to extend the class, u make the child class is a parent class but with more capability
+	- a pointer of type base can point to both type base and derived
+	- only method which are declared virtual can be good overwritten in the derivd class.In the derived class u delcare the method as virtual and u mark it as override, it works only with pointer to an object.
+	- calling of construcor is first parent and then the derived class
+
+- stadanrd Library:
+	- it uses the namespace std so to use an element in the standard library u have to use std::
+- container:
+	- generic data type that are useful for storing collection of data there are 16 containers with 4 types:
+		- sequential: vector, list, array, 
+		- assoctiative: map, set
+		- container adaptors: stack, queue
+
+	- container use value semmantic pass value be value so when u add element to the container u add a copy of the cotainer not the actuall     element, in case of emplace method u add the actual object not a copy from the object
+	
+	- container has methods:
+		- Move Constructor : Used when the source element is an rvalue, and will be destroyed after the construction
+		- Copy Constructor : Used every time you insert an element, except when using an emplace method (discussed
 - string:
 	- the string is nothing but array of character where it ends with "/0" so the software can knows where it ends
 	- there are 3 way to define the string:
-		- 1 - char* p = "ahmed" : it would be stored in read memory so it is constant so the actual defination of this variable is const char* a = "ahmed\0"
-		- 2 char a[] = "ahmed" : the compiler would create an array of char and put the value in it that means this is read / write area in the memory
-		- string a = "ahmed" : that is an class which has more capability on the string
+		- 1 - char* p = "ahmed" : it is c style string
+			- it is a pointer which points to the string which is stored in the code section
+			- it would be stored in read memory so it is constant so the actual defination of this variable is const char* a = "ahmed\0"
+			- sizeof() -> would give the size of the pointer which might br 4 or 8 or 2 depending of the system
+		- 2 char a[] = "ahmed": it is c style string
+			- it is an array
+			- the compiler would create an array of char and put the value in it that means this is read / write area in the memory
+			- sizeof() -> would give the size of the string + null terminated
+			- u can use extended string to print the string with some features
+				- const char *var = R"-(any thing / \ u can write" with space ) and without )-";
+			- string it automatically conside const char * if u want it to be defined as string u have to add "s add the end
+			- u can convert string to integer using the following methods
+				- std::string_literals;
+				- auto string = "anything"s; -> this would be consided as string
+		- string a = "ahmed" : that is an class which has more capability on the string	
 - streaming:
 	- c++ provide a stream interface to communicate with input output interfaces
 	- because it is only interface we dont care if it is keyboard or console or internet u can direct the i/o to any thing
@@ -56,49 +219,6 @@ Programming: Principles and Practice Using C++
 		std::dec
 		std::hex
 		std::oct
-- variables:
-	- declaration is the process of telling the compiler the name and the type but u dont occupy any memory
-		- ex: 
-			- extern int i;
-			- void function_1 (void);
-			- class Widget;
-	- defination: it is the process of occupying the memory 
-		- ex:
-			- int x;
-			- int function_1(void){ return 1;}
-	- assigning:
-		- ex:
-			- Widget w1; -> default constructor
-			- widget w2(w1); -> copy constructore
-			- w1 = w2; -> copy assigment operator
-			- Widget w3 = w1 -> copy constructor
-type deducation:
-	- it does not matter if u pass reference or normal value that doesnot play a role in type deducation
-	template<typename T>
-	void f(T& param);
-		here u declare the function would take a reference in this case the type of the parameter would be reserved and it the type is const the const part would be reserved.
-	- template<typename T>
-	- void f(T& param);
-		it would always be a constant as u expect an refernce constant the parameter wont be copied 
-	- template<typename T>
-	   void f(T&& param);
-	if u pass lvalue reference it would considered as lvalue reference if u pass rvalue reference it woiuld be considered rvalue reference
-	- template<typename T>
-	- void f(T param);
-	then it doesnot matter if u pass const or reference a copy would be maid as u didnot define that a reference or const is expected
-- malloc and new:
-	- both of them would allocate memory which it can be used but malloc wont call the constructor, the same goes for free and delete, only delete would call the destrcutor.
-	- any time u call new u should call delete. and new[] should call delete[]
-- pointers:
-	- as a rule always use smart pointers 
-	- unique Pointers are pinter which doesnot have copy constructor
-	- ex:
-		- auto myUniPointer = make_unique<int>(12)
-		- this would create a pointe and allocate 12 integer size for this pointer
-		- u can pass unique Pointer with move semantic
-		- unique_ptr newPointer = move(oldPointer);
-		
-	- shared pointers are the same no big difference in the semantic rather than u just have to use shared instead of unique
 - array:
 	- it is nothing but a contingious arra of memory with the same size 
 	- if u want to pass array to a function:
@@ -106,118 +226,6 @@ type deducation:
 		when u call the function : func(&array1[0])
 	- if u want to pass array by reference it is only possible if u define a function which takes fixed size area
 		void func(int(&arry)[4])
-- I/O streaming:
-	- std::endl -> it flush the buffer
-- design rules:
-	- abstraction:
-		- u seperate the interface from the implmentation 
-		- you should be  able to use the code without relying on the implementation
-- Lvalue:
-	- something which can take reference from
-	- u can cast Lvalue reference to Rvalue using move ex: std::move()
-- Rvalue:
-	- anything which is not Lvaue
-	- && to reference Rvalue		
-- class:
-	- define the class by writing class myclass {};  -> it should end with ; as it is a statment
-	- class has members which is a date member "variable" or  member functions "constructor, destructore or method"
-	- any method that does not change a member function should be declared as :const
-		ex: double getValue() const;
-- access control:
-	- there are three types of access controll public, private and protected
-	- the default one is private if u didnot define anything
-- this keyword:
-	- it represent the the object which instanced the class
-	- if a method takes an object and u want to call this method from the class u use *this
-	- ex: 1.1 
-- Initializer-List Constructors:	
-	- An initializer-list constructor is a constructor with an std::initializer_list<T> as first parameter,
-	- u can call size on the list to get the size and u can use loop range based 
-	- for (auto i : args)
-- contstructor:
-	- it should have the same name as the class
-	- if the constructor doesnot take any arrgument we call it a default constructor 
-- copy sonstructor:
-	- it takes const reference to the source object
-	- ex: SpreadsheetCell(const SpreadsheetCell& src);
-	- it is called:
-		- when u pass an object to a function or mehtod
-		- when u return object from a function
-	- it can return anything as it is constrcutor
-	
-			
-- Assignment Operator:
-	- it is called when u use "=" and it is not in declaration phase
-	- ex: 
-		SpreadsheetCell myCell(5);
-		SpreadsheetCell anotherCell(myCell);
-		SpreadsheetCell aThirdCell = myCell; that is a copy constructor as the = is with defination stage
-		- classname& operator=(const classname& rhs); at the end u have to return *this
-		- when u return from the function in which u return an obect 
-		- the copy construcotr would be so or so invocaed in order to create the obejct which we should return,
-		- then the operator or the copy constrcutor would be invoked to create the other object
-		
-- const Reference Data Members:
-	- There is an important difference between using a const object versus a non-const object. The const object can call only const methods.
-
-- static:
-	- it is a way to create globaö variable but with name space of the class.
-	- u declare the variable in .h and define the variable in .c file
-
-
-- reference:
-	- it must be initialized once it is created
-	- You cannot create a reference to an unnamed value
-	- int& unnamedRef1 = 5; // DOES NOT COMPILE
-	- const int& unnamedRef2 = 5; // Works as expected
-	- if u define function parameter as reference the compiler would pass the address of the variable so u can perform changes on the variables which would affect the input also
-	
-	*important*
-	- return be reference means the function would return the same object and it wont create a new one 
-		ex:
-			obj& function(obj&) {return &obj}
-	- u have to remember although the function would return a new object if u want to have the same object u have to define the variable which would take it also as reference 
-	
-	- const reference means u want the function not to copy the object but u want it in order to save time not because u want to change the object
-	
-- const keyword:
-	- the value of the pointer is constant:
-	ex:
-		const int* ip;
-		ip = new int[10];
-		ip[4] = 5; //error
-	
-	- the pointer points to constant area:
-	- ex:
-		- int* const ip = new int[10];
-		- ip[4] = 5; //ok
-	
-	- if u define a function which take constant means that the function wont change the object but the object should not be a constant object
-	
-	- if u want to limit the scope of the const to a class u should make it member function and to make one copy of it u have to make it static but u have to define it in the .c file
-	
-	- constexpr:
-		means u want to the value to be computed in the compilation time not in run time the expression should be simple
-- inheritance:
-	- it is a way to extend the class, u make the child class is a parent class but with more capability
-	- a pointer of type base can point to both type base and derived
-	- only method which are declared virtual can be good overwritten in the derivd class.In the derived class u delcare the method as virtual and u mark it as override, it works only with pointer to an object.
-	- calling of construcor is first parent and then the derived class
-
-- stadanrd Library:
-	- it uses the namespace std so to use an element in the standard library u have to use std::
-- container:
-	- generic data type that are useful for storing collection of data there are 16 containers with 4 types:
-		- sequential: vector, list, array, 
-		- assoctiative: map, set
-		- container adaptors: stack, queue
-
-	- container use value semmantic pass value be value so when u add element to the container u add a copy of the cotainer not the actuall     element, in case of emplace method u add the actual object not a copy from the object
-	
-	- container has methods:
-		- Move Constructor : Used when the source element is an rvalue, and will be destroyed after the construction
-		- Copy Constructor : Used every time you insert an element, except when using an emplace method (discussed
-
 - iterators:
 	- pointer to a specific element of the container
 	- Every container class in the Standard Library that supports iterators provides public type aliases for its iterator types, called 	iterator and const_iterator
@@ -275,4 +283,3 @@ type deducation:
 	- if u want to add an element to the map u use insert which take initalizier list or pair and return pair of the element and bool to represent if the insertion successed
 	- insert_or_assign method would overwrite the element if the element exist u can use [] operator it works as insert_or_assign operator
 	if u want to know if an element exist use find which would return the iterator or end
-
