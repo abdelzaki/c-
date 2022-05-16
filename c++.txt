@@ -51,6 +51,7 @@ Programming: Principles and Practice Using C++
 - Rvalue:
 	- anything which is not Lvaue
 	- && to reference Rvalue	
+	- if u want to change lvalue to rvalue u have to use move semantic std::move
 - reference:
 	- it must be initialized once it is created
 	- You cannot create a reference to an unnamed value
@@ -98,8 +99,21 @@ Programming: Principles and Practice Using C++
 	- both of them would allocate memory which it can be used but malloc wont call the constructor, the same goes for free and delete, only delete would call the destrcutor.
 	- any time u call new u should call delete. and new[] should call delete[]
 - pointers:
+	- double pointer:
+		- pointers which point to another point 
+		- ex:
+			- int** dptr = nullptr;
+			- dptr = new int*;
+			- *dptr = new int;
+			- **dptr = 5;
+			- if u want to work with double array
+			- Spreadsheet** mcells;
+			- mcells = new Spreadsheet*[width];
+			- for(int i = 0; i < width ; i++){
+				mcelss[i] = new Spreadsheet[height];
+			}
 	- as a rule always use smart pointers 
-	- unique Pointers are pinter which doesnot have copy constructor
+	- unique Pointers are pointer which doesnot have copy constructor
 	- ex:
 		- auto myUniPointer = make_unique<int>(12)
 		- this would create a pointe and allocate 12 integer size for this pointer
@@ -159,15 +173,38 @@ Programming: Principles and Practice Using C++
 - const Reference Data Members:
 	- There is an important difference between using a const object versus a non-const object. The const object can call only const methods.
 - static:
-	- it is a way to create globaö variable but with name space of the class.
-	- u declare the variable in .h and define the variable in .c file
-
+	- it is a way to create global variable but with name space of the class.
+	- u declare the variable in .h and define the variable in .c file but u dont write the word static in the .c file
+	- ex:
+		- inside the .h file
+			class Spreadsheet{
+				private:
+				static size_t sCounter;};
+		- inside the .c file to occupy space in memory 
+			size_t Spreadsheet::sCounter; or size_t Spreadsheet::sCounter = 0;
+	- if u are using static constant u can define and intialize them inside the class in the .h file u dont have to use the .c file 
+	- ex:
+		- inside .h file 
+			class Spreadsheet{
+			public:
+				static const size_t kMaxHeight = 100;
+				static const size_t kMaxWidth = 100;};
 - inheritance:
-	- it is a way to extend the class, u make the child class is a parent class but with more capability
+	- it is a way to extend the class, u make the child class is a parent class but with more capability or adjustable behaviour 
+	- it works only with pointers and reference 
 	- a pointer of type base can point to both type base and derived
-	- only method which are declared virtual can be good overwritten in the derivd class.In the derived class u delcare the method as virtual and u mark it as override, it works only with pointer to an object.
+	- only method which are declared virtual can be good overwritten in the derived class. In the derived class u delcare the method as virtual and u mark it as override, it works only with pointer to an object.
+	- once method is defined as virtual it is virtual in all derived classes 
 	- calling of construcor is first parent and then the derived class
-
+	- stpes of creation of the derived class:
+		- base default constructor is called if u donot call a specific constructor within ctor
+		- data member of the base class is constructed if there are any data member which has constructor it would be called first before the constructor of the class is called 
+		- u cannot pass member data to the constructor of the base class as it is not initalized 
+		- body of base constructor is excuted
+	- steps of destructor:
+		- the body of the derived destructor is called
+		- data member is deleted 
+		- body of parent destructor is called 
 - stadanrd Library:
 	- it uses the namespace std so to use an element in the standard library u have to use std::
 - container:
@@ -175,7 +212,6 @@ Programming: Principles and Practice Using C++
 		- sequential: vector, list, array, 
 		- assoctiative: map, set
 		- container adaptors: stack, queue
-
 	- container use value semmantic pass value be value so when u add element to the container u add a copy of the cotainer not the actuall     element, in case of emplace method u add the actual object not a copy from the object
 	
 	- container has methods:
@@ -201,9 +237,9 @@ Programming: Principles and Practice Using C++
 		- string a = "ahmed" : that is an class which has more capability on the string	
 - streaming:
 	- c++ provide a stream interface to communicate with input output interfaces
-	- because it is only interface we dont care if it is keyboard or console or internet u can direct the i/o to any thing
+	- because it is only an interface we dont care if it is keyboard or console or internet u can direct the i/o to any thing
 	- u use the header file iostream to include both input and output header files
-	- the stream tends to buffer data in order to send the data u can call flush(), or calling cin would case the output buffer to flush
+	- the stream tends to buffer data in order to send the data u can call flush(), std::endl;, or calling cin would case the output buffer to flush
 	- using cin would read the data and store data in a variable according to the variable type and it read till the white space u cannot read a whole line using this method
 	- cin.getline() -> it is used to read a line till end of line character
 	ios: it is the base for the input output 
@@ -219,6 +255,47 @@ Programming: Principles and Practice Using C++
 		std::dec
 		std::hex
 		std::oct
+
+- exception:
+	- it is catch through concept 
+	- the code which find the error which through the exception while the code which handle the error would catch it
+	- it is recommended to through an object 
+	- ex: 
+		- #include <stdexcept>
+		double SafeDivide(double num, double den){
+			if (den == 0)
+			throw invalid_argument("Divide by zero");
+			return num / den;}
+		int main()
+		{
+		try {
+			cout << SafeDivide(10, 0) << endl;
+		} catch (const invalid_argument& e) {
+		cout << "Caught exception: " << e.what() << endl;
+		}
+		return 0;}
+	- invalid_argument it is class which support what which is const char* var
+	- you can through exception which is general exception 
+	- ex:
+		- throw exception();
+	- general match:
+		- catch (...) {
+			cerr << "Error reading or opening file " << fileName << endl;
+			return 1;}
+- containers:
+	- there are 4 types of containers
+	- Sequential:
+		- array / vector / list / forward_list / deque
+	- Associative:
+		- map / set / multimap / multiset
+	adaptors:
+		- queue / stack / priority_queue
+	- they work with values not with reference
+	- they implement basic operations
+	- copy constructor when u add element
+	- move constructor when u add element which is R value
+	- assigment operator when u modify an element
+
 - array:
 	- it is nothing but a contingious arra of memory with the same size 
 	- if u want to pass array to a function:
@@ -251,6 +328,10 @@ Programming: Principles and Practice Using C++
 		- vector<int> intVector2{ 1, 2, 3, 4, 5, 6 }; using with initialize list
 		- to access elements in vectors u can use at or []
 			at: will perform boundary check
+			front(): would return a reference to the first element
+			back(): would return a reference to the last element of container 
+			begin(vector): would return the first iterator in the array u have to dereference it
+			end(vector): would return past end element which is the element after the end
 		- iterator in vectors:
 			- for (const auto& element : stringVector)
 			- this gives the reference to the element because u used &  any changes in the element would be also inside the vector
