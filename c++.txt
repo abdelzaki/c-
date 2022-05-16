@@ -1,16 +1,22 @@
 Programming: Principles and Practice Using C++
-
+- Concept:
+	- c++ is a superset of c means it can anything which c can do plus extra abilities
+	- it is called c with class 
+	- the modern c++ is starting from c++11
+	- you can see c++ is a language which consists of 4 parts
+		- c: as it has header, datatype, pointers, array
+		- class: constructor, method, attribute
+		- Template: general programming
+		- stl: the standard template where string, map, vector is implemeneted
+		
 -types:
 	- char: it is 8 bits which can have 255 value like 'a','1';
 	- integer: 1 
 	- u can find the size of a type using sizeof an example sizeof(int)
-	
-	
 	bool:
 		- the type is defined by bool
 		- u can convert from integer to bool and the other way around
 		- u can make sum and substraction on bool as it would be converted 1 and 0 if u then store the value back to the variable it would be considered as true and false 
-		
 	char:
 		- it is represented as 8 bits which means it can have 256 values
 		- char belongs to the integer group which means u can perform mathitcal operation on them " + and - "
@@ -18,25 +24,18 @@ Programming: Principles and Practice Using C++
 		- '1' if u changed it to ineger u wont get 1 u will get 48
 		- int {'1'} would yield 48 
 		- c - '0'  to get the integer value form getchar function  
-
 - Initialization:
 	- there are 4 type pf intialization 
 	T x {a} -> no narrowing down and the best way to go
 	T x (a) -> using constructor
 	T x = a -> using assigning 
 	T x = {} -> using assiging with initalization list
-	
-	
-	
-	
--string:
+- string:
 	- the string is nothing but array of character where it ends with "/0" so the software can knows where it ends
 	- there are 3 way to define the string:
 		- 1 - char* p = "ahmed" : it would be stored in read memory so it is constant so the actual defination of this variable is const char* a = "ahmed\0"
 		- 2 char a[] = "ahmed" : the compiler would create an array of char and put the value in it that means this is read / write area in the memory
-		
 		- string a = "ahmed" : that is an class which has more capability on the string
-		
 - streaming:
 	- c++ provide a stream interface to communicate with input output interfaces
 	- because it is only interface we dont care if it is keyboard or console or internet u can direct the i/o to any thing
@@ -44,7 +43,6 @@ Programming: Principles and Practice Using C++
 	- the stream tends to buffer data in order to send the data u can call flush(), or calling cin would case the output buffer to flush
 	- using cin would read the data and store data in a variable according to the variable type and it read till the white space u cannot read a whole line using this method
 	- cin.getline() -> it is used to read a line till end of line character
-	
 	ios: it is the base for the input output 
 	ifstream: input operation  for a file
 	ofstream: output operation	outout operation for a file
@@ -52,46 +50,45 @@ Programming: Principles and Practice Using C++
 	cin: connected to standard input and it is instance of istream
 	cout: connected to standard output it is instance of ostream
 	std::cin >> var : would take an input from the user and save it in the var, it read the data which the user has entered until the user press enter
-	
 	- to format string:
 		std::cout<<std::boolalpha 
 		std::cout.setf(std::ios::boolalpha)	
 		std::dec
 		std::hex
 		std::oct
-
 - variables:
 	- declaration is the process of telling the compiler the name and the type but u dont occupy any memory
-		ex: extern int i;
-		
+		- ex: 
+			- extern int i;
+			- void function_1 (void);
+			- class Widget;
 	- defination: it is the process of occupying the memory 
-
-
-
+		- ex:
+			- int x;
+			- int function_1(void){ return 1;}
+	- assigning:
+		- ex:
+			- Widget w1; -> default constructor
+			- widget w2(w1); -> copy constructore
+			- w1 = w2; -> copy assigment operator
+			- Widget w3 = w1 -> copy constructor
 type deducation:
 	- it does not matter if u pass reference or normal value that doesnot play a role in type deducation
-	
 	template<typename T>
 	void f(T& param);
 		here u declare the function would take a reference in this case the type of the parameter would be reserved and it the type is const the const part would be reserved.
-		
 	- template<typename T>
 	- void f(T& param);
 		it would always be a constant as u expect an refernce constant the parameter wont be copied 
-
 	- template<typename T>
 	   void f(T&& param);
 	if u pass lvalue reference it would considered as lvalue reference if u pass rvalue reference it woiuld be considered rvalue reference
-		
 	- template<typename T>
 	- void f(T param);
 	then it doesnot matter if u pass const or reference a copy would be maid as u didnot define that a reference or const is expected
-
 - malloc and new:
 	- both of them would allocate memory which it can be used but malloc wont call the constructor, the same goes for free and delete, only delete would call the destrcutor.
-	
 	- any time u call new u should call delete. and new[] should call delete[]
-
 - pointers:
 	- as a rule always use smart pointers 
 	- unique Pointers are pinter which doesnot have copy constructor
@@ -102,64 +99,44 @@ type deducation:
 		- unique_ptr newPointer = move(oldPointer);
 		
 	- shared pointers are the same no big difference in the semantic rather than u just have to use shared instead of unique
-	
-
-
 - array:
 	- it is nothing but a contingious arra of memory with the same size 
-	
 	- if u want to pass array to a function:
 		void func(int *) or void func(int[]) both are the same 
 		when u call the function : func(&array1[0])
-		
 	- if u want to pass array by reference it is only possible if u define a function which takes fixed size area
 		void func(int(&arry)[4])
-		
 - I/O streaming:
 	- std::endl -> it flush the buffer
-
-
-
 - design rules:
-	
 	- abstraction:
 		- u seperate the interface from the implmentation 
 		- you should be  able to use the code without relying on the implementation
-	
 - Lvalue:
 	- something which can take reference from
 	- u can cast Lvalue reference to Rvalue using move ex: std::move()
-	
 - Rvalue:
 	- anything which is not Lvaue
-	- && to reference Rvalue
-	
-		
+	- && to reference Rvalue		
 - class:
 	- define the class by writing class myclass {};  -> it should end with ; as it is a statment
 	- class has members which is a date member "variable" or  member functions "constructor, destructore or method"
 	- any method that does not change a member function should be declared as :const
 		ex: double getValue() const;
-	- 
-	
 - access control:
 	- there are three types of access controll public, private and protected
 	- the default one is private if u didnot define anything
-	
 - this keyword:
 	- it represent the the object which instanced the class
 	- if a method takes an object and u want to call this method from the class u use *this
 	- ex: 1.1 
-
 - Initializer-List Constructors:	
 	- An initializer-list constructor is a constructor with an std::initializer_list<T> as first parameter,
 	- u can call size on the list to get the size and u can use loop range based 
 	- for (auto i : args)
-
 - contstructor:
 	- it should have the same name as the class
 	- if the constructor doesnot take any arrgument we call it a default constructor 
-	
 - copy sonstructor:
 	- it takes const reference to the source object
 	- ex: SpreadsheetCell(const SpreadsheetCell& src);
@@ -221,8 +198,6 @@ type deducation:
 	
 	- constexpr:
 		means u want to the value to be computed in the compilation time not in run time the expression should be simple
-	
-
 - inheritance:
 	- it is a way to extend the class, u make the child class is a parent class but with more capability
 	- a pointer of type base can point to both type base and derived
@@ -231,9 +206,6 @@ type deducation:
 
 - stadanrd Library:
 	- it uses the namespace std so to use an element in the standard library u have to use std::
-
-
-
 - container:
 	- generic data type that are useful for storing collection of data there are 16 containers with 4 types:
 		- sequential: vector, list, array, 
@@ -264,9 +236,6 @@ type deducation:
 		- u search if an element is in the containter it take a range 
 		- it return the iteratoe if the iterator is avaliable of the end iterator 
 		- auto it = find(cbegin(myvector),cend(myvector),theElementUareIntertedIn);
-
-
-	
 - vector:
 	- contructor in vector:
 		- default: vector<int> intVector; // Creates a vector of ints with zero elements
@@ -274,21 +243,16 @@ type deducation:
 		- vector<int> intVector2{ 1, 2, 3, 4, 5, 6 }; using with initialize list
 		- to access elements in vectors u can use at or []
 			at: will perform boundary check
-		
 		- iterator in vectors:
 			- for (const auto& element : stringVector)
 			- this gives the reference to the element because u used &  any changes in the element would be also inside the vector
 			- without & u takes a copy of the element not the element it self.
 		- if u used begin and end it return an address u have to reference it to change thte element
-		
 		- to add element:
 			- vec.push_back(myElement)
 		- to clear the vector u can call .clear()
-		
 		- to iterator starting from the second element std::next()		
-			
 		- u can use iterator to iterate over the element and reference the iterator to change the elements or u can use range loop base with auto to access the element
-
 - list:
 	- it support constant time insertion and deletation
 	- it does not support random access of element u donot have operator like []
@@ -298,18 +262,14 @@ type deducation:
 	- back: return the last element of the list
 	- pop_back: remove the last element in the list
 	- pop_front: remove the first element in the list
-	
 - array:
 	- it is declared in the header file <array>
 	- it has size method to get the size of the array and it supported random access using [] and at 
-	
-	
 - queue:
 	- queue it is a template to support first in first out method
 	- push to add element to the tail 
 	- pop remove the element from the front
 	- to retrive the element use front and back u get reference to the element
-
 - Map:
 	- pair is the ability to group two different element together pair<string,in>mypair("hello",5)
 	- if u want to add an element to the map u use insert which take initalizier list or pair and return pair of the element and bool to represent if the insertion successed
