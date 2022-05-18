@@ -22,7 +22,23 @@ Programming: Principles and Practice Using C++
 		- u can covert the char to integer 
 		- '1' if u changed it to ineger u wont get 1 u will get 48
 		- int {'1'} would yield 48 
-		- c - '0'  to get the integer value form getchar function  
+		- c - '0'  to get the integer value form getchar function 
+	- enum:
+		- it is a user define data type where u can give a name to integer value
+		- enum has a global name space
+		- ex:
+			enum color{WHITE, RED, YELLOW};
+			color myColor;
+			myColor = white;
+	- typedef:
+		- it is a way to create an alias for a variable 
+		- u dont create a new variable u just make an alias
+		- ex:
+			typedef int Boolean
+			const Boolean True = 1
+			const Boolean False = 0;
+			
+
 - Initialization:
 	- there are 4 type pf intialization 
 	T x {a} -> no narrowing down and the best way to go
