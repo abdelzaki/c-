@@ -22,7 +22,41 @@ Programming: Principles and Practice Using C++
 		- u can covert the char to integer 
 		- '1' if u changed it to ineger u wont get 1 u will get 48
 		- int {'1'} would yield 48 
-		- c - '0'  to get the integer value form getchar function  
+		- c - '0'  to get the integer value form getchar function 
+	- enum:
+		- it is a user define data type where u can give a name to integer value
+		- enum has a global name space
+		- ex:
+			enum color{WHITE, RED, YELLOW};
+			color myColor;
+			myColor = white;
+	- typedef:
+		- it is a way to create an alias for a variable 
+		- u dont create a new variable u just make an alias
+		- ex:
+			typedef int Boolean
+			const Boolean True = 1
+			const Boolean False = 0;
+		- another example:
+			- typedef real list[50];
+			- list list1; that would create 50 element array of type real
+	- array:
+		- it is nothing but a contingious area of memory with the same size 
+		- if u want to pass array to a function:
+			void func(int *) or void func(int[]) both are the same 
+			when u call the function : func(&array1[0])
+		- array is passed only be reference as the name of the array is the address of the first element in the array
+		- if u want to pass array by reference it is only possible if u define a function which takes fixed size area
+			void func(int(&arry)[4])
+	- struct:
+		- it is a way to create data types which consist of different data types
+		- ex:
+			- struct name_of_struct { int a; int b; real c};
+			- name_of_struct my_struct;
+		- u cannot compare two struct with each other
+		- u can copy the whole struct by assigning the struct to another struct
+		- u can pass struct both by reference or by value while array is passed only by reference because the name of the array is the address of the first element
+
 - Initialization:
 	- there are 4 type pf intialization 
 	T x {a} -> no narrowing down and the best way to go
@@ -45,6 +79,8 @@ Programming: Principles and Practice Using C++
 			- widget w2(w1); -> copy constructore
 			- w1 = w2; -> copy assigment operator
 			- Widget w3 = w1 -> copy constructor
+
+
 - Lvalue:
 	- something which can take reference from
 	- u can cast Lvalue reference to Rvalue using move ex: std::move()
@@ -310,13 +346,6 @@ Programming: Principles and Practice Using C++
 	- move constructor when u add element which is R value
 	- assigment operator when u modify an element
 
-- array:
-	- it is nothing but a contingious arra of memory with the same size 
-	- if u want to pass array to a function:
-		void func(int *) or void func(int[]) both are the same 
-		when u call the function : func(&array1[0])
-	- if u want to pass array by reference it is only possible if u define a function which takes fixed size area
-		void func(int(&arry)[4])
 - iterators:
 	- pointer to a specific element of the container
 	- Every container class in the Standard Library that supports iterators provides public type aliases for its iterator types, called 	iterator and const_iterator
