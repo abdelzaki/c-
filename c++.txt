@@ -235,13 +235,27 @@ Programming: Principles and Practice Using C++
 				- std::string_literals;
 				- auto string = "anything"s; -> this would be consided as string
 		- string a = "ahmed" : that is an class which has more capability on the string	
+	- string_view:
+		- read only string u define it so the function can take the string and work on it 
 - streaming:
 	- c++ provide a stream interface to communicate with input output interfaces
 	- because it is only an interface we dont care if it is keyboard or console or internet u can direct the i/o to any thing
 	- u use the header file iostream to include both input and output header files
 	- the stream tends to buffer data in order to send the data u can call flush(), std::endl;, or calling cin would case the output buffer to flush
-	- using cin would read the data and store data in a variable according to the variable type and it read till the white space u cannot read a whole line using this method
+	- using cin would read the data and store data in a variable according to the variable type and it read till the white space, tab or newline u cannot read a whole line using this method
 	- cin.getline() -> it is used to read a line till end of line character
+	- u can get more than 1 variables if u concatenate the cin
+	- ex:
+		- cin >> var1 >> var2 >> var3
+	- cin.get(char)
+		- it would read the next charachter includeing the whitespace
+	- cin.putchar(char)
+		- it would return the character to the input stream
+	- char a = cin.peek()
+		- it would read the next character without removing it from the input stream
+	- cin.ignore(int, char)
+		- ignore the next number of character or the next expression depending on which happens first 
+		
 	ios: it is the base for the input output 
 	ifstream: input operation  for a file
 	ofstream: output operation	outout operation for a file
@@ -322,40 +336,61 @@ Programming: Principles and Practice Using C++
 		- it return the iteratoe if the iterator is avaliable of the end iterator 
 		- auto it = find(cbegin(myvector),cend(myvector),theElementUareIntertedIn);
 - vector:
+	- it is allocated in the heap
 	- contructor in vector:
 		- default: vector<int> intVector; // Creates a vector of ints with zero elements
 		- vector<int> intVector(10, 100); // Creates vector of 10 ints with value 100
 		- vector<int> intVector2{ 1, 2, 3, 4, 5, 6 }; using with initialize list
-		- to access elements in vectors u can use at or []
-			at: will perform boundary check
-			front(): would return a reference to the first element
-			back(): would return a reference to the last element of container 
-			begin(vector): would return the first iterator in the array u have to dereference it
-			end(vector): would return past end element which is the element after the end
-		- iterator in vectors:
-			- for (const auto& element : stringVector)
-			- this gives the reference to the element because u used &  any changes in the element would be also inside the vector
-			- without & u takes a copy of the element not the element it self.
-		- if u used begin and end it return an address u have to reference it to change thte element
-		- to add element:
-			- vec.push_back(myElement)
-		- to clear the vector u can call .clear()
-		- to iterator starting from the second element std::next()		
-		- u can use iterator to iterate over the element and reference the iterator to change the elements or u can use range loop base with auto to access the element
+		- it support random access
+	- to access elements in vectors u can use at or []
+		at: will perform boundary check
+		front(): would return a reference to the first element
+		back(): would return a reference to the last element of container 
+		begin(vector): would return the first iterator in the array u have to dereference it
+		end(vector): would return past end element which is the element after the end
+	- iterator in vectors:
+		- for (const auto& element : stringVector)
+		- this gives the reference to the element because u used &  any changes in the element would be also inside the vector
+		- without & u takes a copy of the element not the element it self.
+	- if u used begin and end it return an address u have to reference it to change thte element
+	- to add element:
+		- vec.push_back(myElement)
+		- this makes a copy of the element and woulf be added to the list 
+		 
+	- to clear the vector u can call .clear()
+	- to iterator starting from the second element std::next()		
+	- u can use iterator to iterate over the element and reference the iterator to change the elements or u can use range loop base with auto to access the element
+	- if u return a vector from function it would return using move sematic which means it would be fast 
+	- ex:
+		vector<int> createVectorOfSize(size_t size)
+		{
+			vector<int> vec(size);
+			int contents = 0;
+			for (auto& i : vec) {
+				i = contents++;}
+			return vec;}
+		vector<int> myVector;
+		myVector = createVectorOfSize(123);
+
 - list:
+	- double linked list
 	- it support constant time insertion and deletation
 	- it does not support random access of element u donot have operator like []
 	- push_back: add element to the end of the list
 	- push_front : add element to the beging of the list
-	- front: return the first element
-	- back: return the last element of the list
+	- front: return the first element as Reference
+	- back: return the last element of the list as Reference 
 	- pop_back: remove the last element in the list
 	- pop_front: remove the first element in the list
+	- splice: u add list to another list starting from a specific point in the first list and the second list would be empty out
+- forward_list:
+	- single linked list 
 - array:
+	- it is allocated in the stack 
 	- it is declared in the header file <array>
 	- it has size method to get the size of the array and it supported random access using [] and at 
 - queue:
-	- queue it is a template to support first in first out method
+	- queue it is a template to support first in first out method (FIFO)
 	- push to add element to the tail 
 	- pop remove the element from the front
 	- to retrive the element use front and back u get reference to the element
