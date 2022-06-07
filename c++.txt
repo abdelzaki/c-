@@ -14,7 +14,7 @@ Programming: Principles and Practice Using C++
 	- u can find the size of a type using sizeof an example sizeof(int)
 	bool:
 		- the type is defined by bool
-		- u can convert from integer to bool and the other way around
+		- u can convert from integer to bool and the other way around as true is one and false is zero
 		- u can make sum and substraction on bool as it would be converted 1 and 0 if u then store the value back to the variable it would be considered as true and false 
 	char:
 		- it is represented as 8 bits which means it can have 256 values
@@ -57,6 +57,10 @@ Programming: Principles and Practice Using C++
 		- u can copy the whole struct by assigning the struct to another struct
 		- u can pass struct both by reference or by value while array is passed only by reference because the name of the array is the address of the first element
 
+- template:
+	- it is something like micro
+	- funtion would be created when we call it 
+
 - Initialization:
 	- there are 4 type pf intialization 
 	T x {a} -> no narrowing down and the best way to go
@@ -80,7 +84,6 @@ Programming: Principles and Practice Using C++
 			- w1 = w2; -> copy assigment operator
 			- Widget w3 = w1 -> copy constructor
 
-
 - Lvalue:
 	- something which can take reference from
 	- u can cast Lvalue reference to Rvalue using move ex: std::move()
@@ -88,6 +91,8 @@ Programming: Principles and Practice Using C++
 	- anything which is not Lvaue
 	- && to reference Rvalue	
 	- if u want to change lvalue to rvalue u have to use move semantic std::move
+	- return value is automatically used by move and can be bind to rValue if u return a local variable 
+
 - reference:
 	- it must be initialized once it is created
 	- You cannot create a reference to an unnamed value
@@ -103,6 +108,7 @@ Programming: Principles and Practice Using C++
 	- u have to remember although the function would return a new object if u want to have the same object u have to define the variable which would take it also as reference 
 	- const reference means u want the function not to copy the object but u want it in order to save time not because u want to change the object
 - const keyword:
+	- const means i promise i wont change the value of the variable 
 	- the value of the pointer is constant:
 	ex:
 		const int* ip;
@@ -113,9 +119,13 @@ Programming: Principles and Practice Using C++
 		- int* const ip = new int[10];
 		- ip[4] = 5; //ok
 	- if u define a function which take constant means that the function wont change the object but the object should not be a constant object
-	- if u want to limit the scope of the const to a class u should make it member function and to make one copy of it u have to make it static but u have to define it in the .c file
+	- if u want to limit the scope of the const to a class u should make it member function and to make one copy of it u have to make it static. in this case u provide the initial value of the static const integer member in the .h file and u define it in .c file
+	- ex:
+		- static const int NumTurns = 5; -> .h file
+		- 
 	- constexpr:
-		means u want to the value to be computed in the compilation time not in run time the expression should be simple
+		- means u want to the value to be computed in the compilation time not in run time the expression should be simple with return 
+		- variable of const expression can take it value from a function only if the fuction returns constexpression 
 - allocation of memory:
 	- if u want to allocate memory in heap u use new keyword
 	- new would create a variable in the stack with points to the heap 
@@ -164,6 +174,14 @@ Programming: Principles and Practice Using C++
 	- class has members which is a date member "variable" or  member functions "constructor, destructore or method"
 	- any method that does not change a member function should be declared as :const
 		ex: double getValue() const; 
+- object:
+	- object can be passed to a function by reference or by value 
+	- generally speaking u delcare the function to take reference if u want to change the object or u declare it as const reference if u dont want to change the object
+	- ex:
+		void function1(&object1) function which would change the object 
+		void function2(const& object1) function which wont change the object 
+	- it can be returned from a function also
+
 - access control:
 	- there are three types of access controll public, private and protected
 	- the default one is private if u didnot define anything
@@ -180,6 +198,7 @@ Programming: Principles and Practice Using C++
 	- An initializer-list constructor is a constructor with an std::initializer_list<T> as first parameter, u have to include <initializer_list> header
 	- u can call size on the list to get the size and u can use loop range based 
 	- for (auto& i : args)
+	- u can call size, end, begin on the initialize list 
 - copy constructor:
 	- it takes const reference to the source object
 	- ex: SpreadsheetCell(const SpreadsheetCell& src);
@@ -202,6 +221,21 @@ Programming: Principles and Practice Using C++
 		- when u return from the function in which u return an obect 
 		- the copy construcotr would be so or so invocaed in order to create the obejct which we should return,
 		- then the operator or the copy constrcutor would be invoked to create the other object	
+
+- explicit:
+	- u should define constructor which can take a single argument as explicit to prevent the constructor from converting 
+	- struct X {
+		explicit X();
+		explicit X(int,int);
+		};
+	- X x = {1} or X x = {1,2} would cause an erorr
+	- X x {1} or X x {1,2} ok
+	- int f(X);
+	- int i1 = f({}); // error : implicit
+	- int i2 = f({1,2}); // error : implicit
+	- int i3 = f(X{}); // OK: explicit
+	- int i4 = f(X{1,2}); // OK: explicit
+
 - destructor:
 	- it is called when the object goes out of the scope 
 	- if u use pointer to the stack then when u call delete 
@@ -225,9 +259,14 @@ Programming: Principles and Practice Using C++
 			public:
 				static const size_t kMaxHeight = 100;
 				static const size_t kMaxWidth = 100;};
+
 - inheritance:
 	- it is a way to extend the class, u make the child class is a parent class but with more capability or adjustable behaviour 
-	- it works only with pointers and reference 
+	- it works only with pointers and reference
+	- if u want to define abstact class u use virtual and = 0
+	ex:
+		-  virtual double& operator[](int) = 0;
+		
 	- a pointer of type base can point to both type base and derived
 	- only method which are declared virtual can be good overwritten in the derived class. In the derived class u delcare the method as virtual and u mark it as override, it works only with pointer to an object.
 	- once method is defined as virtual it is virtual in all derived classes 
@@ -428,3 +467,13 @@ Programming: Principles and Practice Using C++
 	- if u want to add an element to the map u use insert which take initalizier list or pair and return pair of the element and bool to represent if the insertion successed
 	- insert_or_assign method would overwrite the element if the element exist u can use [] operator it works as insert_or_assign operator
 	if u want to know if an element exist use find which would return the iterator or end
+
+- ternary operator 
+	return t1 > t2 ?  t1 :  t2;
+
+- function:
+	- lambda functions:
+		- signature : [capture list] (parameters) -> return type { function body };
+		- auto func = [](){std::cout << "hi there "} ;
+		- u can call it automatically 
+			- [] ( ) {std::cout << "hi "}();
