@@ -60,6 +60,13 @@ Programming: Principles and Practice Using C++
 - template:
 	- it is something like micro
 	- funtion would be created when we call it 
+	- template<typename T > 
+		function1(T a) {return a;};
+	- template specializing: 
+		template<>
+		function1(char a) {return a + "s";};
+		
+
 
 - Initialization:
 	- there are 4 type pf intialization 
@@ -474,6 +481,14 @@ Programming: Principles and Practice Using C++
 - function:
 	- lambda functions:
 		- signature : [capture list] (parameters) -> return type { function body };
-		- auto func = [](){std::cout << "hi there "} ;
+		- auto func = [](){std::cout << "hi there "; return 12; } ;
 		- u can call it automatically 
 			- [] ( ) {std::cout << "hi "}();
+		- capture list it is a way to pass data to the lambda so the lambda function can have access of them
+		- remember it is capture means u take one value of the variable
+		- u can capture by reference and then the value inside the function would remain the same 
+		- u can capture everything by value, u can use [=] to capture everything
+		- u can capture everything by reference using [&] to capture everything by reference 
+
+ 
+
