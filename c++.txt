@@ -65,7 +65,14 @@ Programming: Principles and Practice Using C++
 	- template specializing: 
 		template<>
 		function1(char a) {return a + "s";};
-		
+	- vardiic template
+	ex:
+		void printMessage();
+		template<typename T, typename... types>
+		void printMessage(const T& firstArgs, const types&... args) {
+			std::cout << firstArgs << " \n";
+			printMessage(args...);
+		}
 
 
 - Initialization:
@@ -422,6 +429,8 @@ Programming: Principles and Practice Using C++
 		- auto it = find(cbegin(myvector),cend(myvector),theElementUareIntertedIn);
 - vector:
 	- it is allocated in the heap
+	- it enables dynamic access
+	- u can get the size of the vector using size()
 	- contructor in vector:
 		- default: vector<int> intVector; // Creates a vector of ints with zero elements
 		- vector<int> intVector(10, 100); // Creates vector of 10 ints with value 100
@@ -474,6 +483,8 @@ Programming: Principles and Practice Using C++
 	- it is allocated in the stack 
 	- it is declared in the header file <array>
 	- it has size method to get the size of the array and it supported random access using [] and at 
+	- std::array< 5, std::string>
+		- array which has 5 elements and all it is elements are integer 
 - queue:
 	- queue it is a template to support first in first out method (FIFO)
 	- push to add element to the tail 
@@ -500,5 +511,19 @@ Programming: Principles and Practice Using C++
 		- u can capture everything by value, u can use [=] to capture everything
 		- u can capture everything by reference using [&] to capture everything by reference 
 
- 
+ booster:
+ 	- boost::any -> provide a generic type which can be integer or string or anything 
+ 	- boost::variant -> union which can be one of a predefined types  
+ 	- boost::array:
+ 		- u can define a fixed size array using typedef boost::array<char, 4> array4_t;
+ 		- the first parameter is the type and the second element is the size
+ 		
+
+/*
+design pattern 
+*/
+
+- Prototype:
+	- Model object which we can make copy of it, customize it and then use it 
+	- 
 
