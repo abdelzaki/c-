@@ -351,6 +351,16 @@ Programming: Principles and Practice Using C++
 		std::dec
 		std::hex
 		std::oct
+	- ostringsream:
+		- it is defined in the header file #include<sstream>
+		- it allows u to use buffer where u can write to it and then print it using cout 
+		- ex:
+			std::ostringstream os
+			os << "write something in the buffer so i can print it later \n";
+			os << "keep writing something in the buffer \n"
+			std:: string  myString = " string variable ";
+			os << myString;
+			std::cout << os.str(); ;
 
 - exception:
 	- it is catch through concept 
