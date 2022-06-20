@@ -524,6 +524,12 @@ Programming: Principles and Practice Using C++
 
 	- std::accumlate(vec.begin(), vec.end(), 0);
 
+	- std::bind:
+		- u can use to to provide argument to function which u would call at later time in the future
+		- ex:
+			auto plus10 = std::bind(std::plus<int>(),std::placeholders::_1, 10);
+			std::cout << "+10: " << plus10(7) << std::endl;
+
 - vector:
 	- it is allocated in the heap
 	- it enables dynamic access
@@ -652,6 +658,38 @@ Programming: Principles and Practice Using C++
 	- to get the start time from a specific point of the code 
 		- auto system_start = chrono::system_clock::now();
 
+- future:
+	- it gives the possibilty to wait on a result
+	- u can fire the event as a backgroud process and get the result when it is available
+	- ex:
+		std::future<int> result1(std::async(func1));
+		int result2 = func2();
+		int result = result1.get() + result2;
+	- u can decide the function should start excute right now 
+		ex: 
+			std::future<long> result1= std::async(std::launch::async, func1);
+	- can can wait on a background thread
+		std::future<...> f(std::async(func));
+		f.wait()
+	- std::this_thread::yield();
+		- it is used to release the thread
+- promise:
+	- it is the opposite of future
+	- it gives u a way to pass data to the function later 
+	- u tell the function that i promise i would provide the data but not right now
+	-	
+- mutexes and lock:
+	std::mutex valMutex;
+	valMutex.lock();
+	valMutex.unlock();
+
+	std::lock_guard<std::mutex> lg(valMutex);
+	- this would unlick by destructor 
+
+	- u can use recursive lock to avoid dead lock 
+		std::recursive_mutex dbMutex;
+		std::lock_guard<std::recursive_mutex> lg(dbMutex);
+		std::lock_guard<std::recursive_mutex> lg(dbMutex);
 
 /*
 -------------------------------------------------------------------------------------
@@ -661,8 +699,7 @@ Style
 - u can write a comment that the function can throw an exception if something happens
 	- ex:	
 			/*
-			* saveRecord()
-			*
+			* saveRecord			*
 			* Saves the given record to the database.
 			*
 			* Parameters:
