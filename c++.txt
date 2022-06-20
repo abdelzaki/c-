@@ -30,6 +30,11 @@ Programming: Principles and Practice Using C++
 			enum color{WHITE, RED, YELLOW};
 			color myColor;
 			myColor = white;
+	- enum class:
+		- it is strong typed means u cannot compare it with another enum of a different type or direct with an integer
+		- ex:
+			enum class PieceType{ King = 1, Queen = 2};
+			PieceType piece = PieceType::King;
 	- typedef:
 		- it is a way to create an alias for a variable 
 		- u dont create a new variable u just make an alias
@@ -65,8 +70,18 @@ Programming: Principles and Practice Using C++
 	- template specializing: 
 		template<>
 		function1(char a) {return a + "s";};
-		
-
+	- u can define nonetype template
+		template<int a>
+	- to work by reference 
+		template<typeName T>
+		T& function1(T& a, T&c){return c;};
+	- return type deducing 
+		template<typeName T, typeName P>
+		auto function1(T& a, P&c){return c;};
+		- this would return the bigger size of u both type
+	- decltype it is used to make the return type general
+		template<typename T, typename P>
+		auto max(T t, P p) -> declType((t > p ) ? t : p ){ return t;}
 
 - Initialization:
 	- there are 4 type pf intialization 
@@ -170,8 +185,23 @@ Programming: Principles and Practice Using C++
 	- ex:
 		- auto myUniPointer = make_unique<int>(12)
 		- this would create a pointe and allocate 12 integer size for this pointer
+		- auto mySimpleSmartPointer = std::make_unique<Simple>()
+		- u can change the unique pointer to raw pointer using get method on the pointer 
+		- ex:
+			mySimpleSmartPointer* ratPointer =  mySimpleSmartPointer.get()
+		- u can free the resource by calling reset on the pointer
+		- ex:
+			- mySimpleSmartPointer.reset()
 		- u can pass unique Pointer with move semantic
 		- unique_ptr newPointer = move(oldPointer);	
+		- u can pass it to function 
+		-ex 
+			function1(std::move(oldPointer))
+		- u can pass it be reference 
+			function1(const std::unique<Shape>& x )
+			here constant doesnot mean u can call only call constant method, it means u cannot change the pointer like reset the pointer 
+		- return unique pointer happens without problem as the compiler whould call the move semantic automatically 
+
 	- shared pointers are the same no big difference in the semantic rather than u just have to use shared instead of unique
 	- ex:
 		- std::shared_ptr<Entity> smartptr1 = std::make_shared<Entity>();
@@ -197,7 +227,10 @@ Programming: Principles and Practice Using C++
 	- if a method takes an object and u want to call this method from the class u use *this
 - contstructor:
 	- it should have the same name as the class
-	- if the constructor doesnot take any arrgument we call it a default constructor 
+	- if the constructor doesnot take any arrgument we call it a default constructor
+- constructor delegation:
+	- it is a way that u call another constructor from the constructor in constructor list 
+	- u are not allowed to call anything else rather than the constructor in constructor list anything else should be called in the body of the constructor  
 - Constructor Initializers:
 	- u use it to initialize data member of the class as the class have to initilaize the data member befor calling the construtor. using Constructor Initializers u make sure that the data member would be right initilized with the right values.
 	- very important rule the data is initilized with the order of the defination of the class not with the order they are calles from the the constructor 
@@ -287,6 +320,20 @@ Programming: Principles and Practice Using C++
 		- the body of the derived destructor is called
 		- data member is deleted 
 		- body of parent destructor is called 
+
+- Casting:
+	- up casting is ok means the base pointer or reference points to derived object 
+	- ex:
+		Base& myBase = myDerived;
+
+	- down casting is more a problems means that the derived object points to base using dynamic_cast
+	- it is dangerous and it should be avoided 
+	- ex:
+		Derived myDerived = dynamic_cast<Derived*> myBase;
+
+
+
+
 - stadanrd Library:
 	- it uses the namespace std so to use an element in the standard library u have to use std::
 - container:
@@ -356,6 +403,11 @@ Programming: Principles and Practice Using C++
 	- it is catch through concept 
 	- the code which find the error which through the exception while the code which handle the error would catch it
 	- it is recommended to through an object 
+	- object should be copyable 
+	- noexcept:
+		- exceptions are allowed to propraged 
+		- if the error was not handled in the function the programm would be terminated
+		- destructors are noexcept be dafault
 	- ex: 
 		- #include <stdexcept>
 		double SafeDivide(double num, double den){
@@ -475,6 +527,12 @@ Programming: Principles and Practice Using C++
 	- insert_or_assign method would overwrite the element if the element exist u can use [] operator it works as insert_or_assign operator
 	if u want to know if an element exist use find which would return the iterator or end
 
+algorthium:
+	- std::all_of : would return true if all of them fit the codition  
+		if (std::all_of(std::cbegin(vec), std::cend(vec), [](int i) { return  i % 2 == 1;  })) {
+		std::cout << "odd \n";}
+	- any_of: would return true if any element fit the condition 
+
 - ternary operator 
 	return t1 > t2 ?  t1 :  t2;
 
@@ -490,5 +548,66 @@ Programming: Principles and Practice Using C++
 		- u can capture everything by value, u can use [=] to capture everything
 		- u can capture everything by reference using [&] to capture everything by reference 
 
+/*
+-------------------------------------------------------------------------------------
+Style
+*/
  
+- u can write a comment that the function can throw an exception if something happens
+	- ex:	
+			/*
+			* saveRecord()
+			*
+			* Saves the given record to the database.
+			*
+			* Parameters:
+			* 	Record& record: the record to save to the database.
+			* Returns: int
+			* 	An integer representing the ID of the saved record.
+			* Throws:
+			* 	DatabaseNotOpenedException if the openDatabase() method has not
+			* 	been called yet.
+			*/
 
+- u can write a comment to a file
+	- ex:
+		/*
+		* Author: marcg
+		* Date: 110412
+		* Feature: PRD version 3, Feature 5.10
+		*/
+
+- u can write to do also:
+	- ex:
+		// TODO: What if setId() throws an exception? – akshayr 110501
+
+- Naming conventation:
+	- counter:
+		- u can use i or j
+	- Data member:
+		- u can use m 
+		ex:
+			- mData or m_Data
+	- static:
+		- u can use s to indicate it is static 
+		-ex:
+			- sLookup
+	- boolen:
+		- u can use is 
+		- ex:
+			- isCompleted 
+
+
+/*
+----------------------------------
+design pattern:
+*/
+
+Adapter:
+	- make interface to adapt to another interface 
+	- 
+
+/*
+----------------------------------
+open CV:
+*/
