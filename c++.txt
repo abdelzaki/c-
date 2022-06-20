@@ -469,17 +469,61 @@ Programming: Principles and Practice Using C++
 		std::vector<int>iterator 
 	- int arry[] = {1, 2, 3, 4, /* end */ }; the end refere to past one from the actual range
 	- iteraor has:
-		- begin : return the first element which is a refernce to this element if u made change to this element u change the element in the container
-		- end : return past the end by one
-		- cbegin : const first element
+		- begin() : return the first element which is a refernce to this element if u made change to this element u change the element in the container
+		- end() : return past the end by one
+		- cbegin() : const first element
+		- cend()
+		- all this method can be called on the container to get an iterator 
+		-ex:
+			for auto elem& : coll) {
+				elem = 12 // here element is referenced 
+				}	
+
+	- iterator enables for based for loop where u can get the element from the container
+	auto system_start = chrono::system_clock::now();
 
 - algoritms:
-	- they woron on iterators
+	- they work on on iterators
+	- u can search, replace, sort 
 	- the header file is <algoritms>
-	find:
+	- std::all_of: 
+		-would return true if all of them fit the codition  
+		if (std::all_of(std::cbegin(vec), std::cend(vec), [](int i) { return  i % 2 == 1;  })) {
+		std::cout << "odd \n";}
+	- std::any_of: 
+		- would return true if any element fit the condition 
+	- std::find:
 		- u search if an element is in the containter it take a range 
-		- it return the iteratoe if the iterator is avaliable of the end iterator 
-		- auto it = find(cbegin(myvector),cend(myvector),theElementUareIntertedIn);
+		- it return the iterator / index if the iterator is avaliable of the end iterator 
+		- auto index = find(cbegin(myvector),cend(myvector),theElementUareIntertedIn);
+	- min_element:
+		- to find the minimal element in a container would return an iterator which u need to deference 
+		- ex:
+			auto minpos = min_element(coll.cbegin(),coll.cend());
+			std::cout << *minpos
+	- find_if:
+		- return the first iterator which would return true
+		- ex:
+			auto pos = find_if (coll.cbegin(), coll.cend(), isPrime);
+			- pos here is iterator which u need to dereference in order to get the value 
+	- for_each:
+		- ex:
+			for_each (coll.cbegin(), coll.cend(),print);
+		- u can use it to call also operator()
+		- ex:
+			for_each (coll.cbegin(), coll.cend(), PrintInt());
+			- hier we created object on the fly which then would be called from for_each
+			- it has more benefits as this way u have a way to pass variable in the function as closure and then the function would be called with this value closure in Javascript the same concept
+
+	- std::transform it is used to operator on container and create new create based on a function in the container 
+	- ex:
+		std::transform(vec1.begin(), vec1.end(), std::back_inserter(vec2), std::negate<int>());
+	for (auto& i : vec2) {
+		std::cout << i << "\n";
+	}
+
+	- std::accumlate(vec.begin(), vec.end(), 0);
+
 - vector:
 	- it is allocated in the heap
 	- it enables dynamic access
@@ -488,6 +532,8 @@ Programming: Principles and Practice Using C++
 		- default: vector<int> intVector; // Creates a vector of ints with zero elements
 		- vector<int> intVector(10, 100); // Creates vector of 10 ints with value 100
 		- vector<int> intVector2{ 1, 2, 3, 4, 5, 6 }; using with initialize list
+		- std::vector<int> vec(10);
+			- that would create vector which has the size of 10 elements
 		- it support random access
 	- to access elements in vectors u can use at or []
 		at: will perform boundary check
@@ -495,11 +541,15 @@ Programming: Principles and Practice Using C++
 		back(): would return a reference to the last element of container 
 		begin(vector): would return the first iterator in the array u have to dereference it
 		end(vector): would return past end element which is the element after the end
+		vector.erase(iteraor): erase the element which has this iterator
+		pop_back():
+			- to delete the last element from the vector u can use pop_back()
+
 	- iterator in vectors:
 		- for (const auto& element : stringVector)
 		- this gives the reference to the element because u used &  any changes in the element would be also inside the vector
 		- without & u takes a copy of the element not the element it self.
-	- if u used begin and end it return an address u have to reference it to change thte element
+	- if u used begin and end it return an address u have to reference it to change the element
 	- to add element:
 		- vec.push_back(myElement)
 		- this makes a copy of the element and woulf be added to the list 
@@ -538,6 +588,13 @@ Programming: Principles and Practice Using C++
 	- it has size method to get the size of the array and it supported random access using [] and at 
 	- std::array< 5, std::string>
 		- array which has 5 elements and all it is elements are integer 
+	- at() : return the element at the index
+	- front() : return the first element
+	- back() : return the last element
+
+- set:
+	- it doesnot allow duplication
+
 - queue:
 	- queue it is a template to support first in first out method (FIFO)
 	- push to add element to the tail 
@@ -549,11 +606,6 @@ Programming: Principles and Practice Using C++
 	- insert_or_assign method would overwrite the element if the element exist u can use [] operator it works as insert_or_assign operator
 	if u want to know if an element exist use find which would return the iterator or end
 
-algorthium:
-	- std::all_of : would return true if all of them fit the codition  
-		if (std::all_of(std::cbegin(vec), std::cend(vec), [](int i) { return  i % 2 == 1;  })) {
-		std::cout << "odd \n";}
-	- any_of: would return true if any element fit the condition 
 
 - ternary operator 
 	return t1 > t2 ?  t1 :  t2;
@@ -569,6 +621,37 @@ algorthium:
 		- u can capture by reference and then the value inside the function would remain the same 
 		- u can capture everything by value, u can use [=] to capture everything
 		- u can capture everything by reference using [&] to capture everything by reference 
+		- u can use std::function tp declare function
+		- ex:
+			- std::function<void(int, float)> f 
+			- f = function1;
+			- f(1,1.0);
+			- here u declared function with the name f which takes 2 args and return nothing
+			- u assifn function1 to it
+			- then u can call it 
+
+- chrono:
+	- it is libaray which has API which can be used to workt with the time 
+	- there are another way to use platform dependent 
+	- why we need chrono:
+		- it has unit like second, minutes, millsecond
+	- Seconds
+		- u can find it under std::chrono::seconds 
+		- u can initalize it using:
+			- seconds s{};
+		- u can implicit to to integer u always has to use inializer list
+		- to get the value of the second u have to use:
+			- s.count();
+		- to pass it to a function u have to use constructor 
+			- function(seconds(3));
+			- function(3s);
+			- function(3); it wont compile
+	- duration it is a way to define period of time
+	- std::chrono::duration<int> sec(20);
+	- std::chrono::duration<double,std::ration<60>> halfMinute(0.5);
+	- to get the start time from a specific point of the code 
+		- auto system_start = chrono::system_clock::now();
+
 
 /*
 -------------------------------------------------------------------------------------
