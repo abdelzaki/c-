@@ -339,9 +339,6 @@ Programming: Principles and Practice Using C++
 	- ex:
 		Derived myDerived = dynamic_cast<Derived*> myBase;
 
-
-
-
 - stadanrd Library:
 	- it uses the namespace std so to use an element in the standard library u have to use std::
 - container:
@@ -448,6 +445,9 @@ Programming: Principles and Practice Using C++
 		- catch (...) {
 			cerr << "Error reading or opening file " << fileName << endl;
 			return 1;}
+- function object:
+	- it is an object which has the () operator defined
+	- 
 - containers:
 	- there are 4 types of containers
 	- Sequential:
