@@ -30,6 +30,11 @@ Programming: Principles and Practice Using C++
 			enum color{WHITE, RED, YELLOW};
 			color myColor;
 			myColor = white;
+	- enum class:
+		- it is strong typed means u cannot compare it with another enum of a different type or direct with an integer
+		- ex:
+			enum class PieceType{ King = 1, Queen = 2};
+			PieceType piece = PieceType::King;
 	- typedef:
 		- it is a way to create an alias for a variable 
 		- u dont create a new variable u just make an alias
@@ -65,6 +70,18 @@ Programming: Principles and Practice Using C++
 	- template specializing: 
 		template<>
 		function1(char a) {return a + "s";};
+	- u can define nonetype template
+		template<int a>
+	- to work by reference 
+		template<typeName T>
+		T& function1(T& a, T&c){return c;};
+	- return type deducing 
+		template<typeName T, typeName P>
+		auto function1(T& a, P&c){return c;};
+		- this would return the bigger size of u both type
+	- decltype it is used to make the return type general
+		template<typename T, typename P>
+		auto max(T t, P p) -> declType((t > p ) ? t : p ){ return t;}
 	- vardiic template
 	ex:
 		void printMessage();
@@ -73,7 +90,6 @@ Programming: Principles and Practice Using C++
 			std::cout << firstArgs << " \n";
 			printMessage(args...);
 		}
-
 
 - Initialization:
 	- there are 4 type pf intialization 
@@ -177,8 +193,23 @@ Programming: Principles and Practice Using C++
 	- ex:
 		- auto myUniPointer = make_unique<int>(12)
 		- this would create a pointe and allocate 12 integer size for this pointer
+		- auto mySimpleSmartPointer = std::make_unique<Simple>()
+		- u can change the unique pointer to raw pointer using get method on the pointer 
+		- ex:
+			mySimpleSmartPointer* ratPointer =  mySimpleSmartPointer.get()
+		- u can free the resource by calling reset on the pointer
+		- ex:
+			- mySimpleSmartPointer.reset()
 		- u can pass unique Pointer with move semantic
 		- unique_ptr newPointer = move(oldPointer);	
+		- u can pass it to function 
+		-ex 
+			function1(std::move(oldPointer))
+		- u can pass it be reference 
+			function1(const std::unique<Shape>& x )
+			here constant doesnot mean u can call only call constant method, it means u cannot change the pointer like reset the pointer 
+		- return unique pointer happens without problem as the compiler whould call the move semantic automatically 
+
 	- shared pointers are the same no big difference in the semantic rather than u just have to use shared instead of unique
 	- ex:
 		- std::shared_ptr<Entity> smartptr1 = std::make_shared<Entity>();
@@ -204,7 +235,10 @@ Programming: Principles and Practice Using C++
 	- if a method takes an object and u want to call this method from the class u use *this
 - contstructor:
 	- it should have the same name as the class
-	- if the constructor doesnot take any arrgument we call it a default constructor 
+	- if the constructor doesnot take any arrgument we call it a default constructor
+- constructor delegation:
+	- it is a way that u call another constructor from the constructor in constructor list 
+	- u are not allowed to call anything else rather than the constructor in constructor list anything else should be called in the body of the constructor  
 - Constructor Initializers:
 	- u use it to initialize data member of the class as the class have to initilaize the data member befor calling the construtor. using Constructor Initializers u make sure that the data member would be right initilized with the right values.
 	- very important rule the data is initilized with the order of the defination of the class not with the order they are calles from the the constructor 
@@ -294,6 +328,17 @@ Programming: Principles and Practice Using C++
 		- the body of the derived destructor is called
 		- data member is deleted 
 		- body of parent destructor is called 
+
+- Casting:
+	- up casting is ok means the base pointer or reference points to derived object 
+	- ex:
+		Base& myBase = myDerived;
+
+	- down casting is more a problems means that the derived object points to base using dynamic_cast
+	- it is dangerous and it should be avoided 
+	- ex:
+		Derived myDerived = dynamic_cast<Derived*> myBase;
+
 - stadanrd Library:
 	- it uses the namespace std so to use an element in the standard library u have to use std::
 - container:
@@ -373,6 +418,11 @@ Programming: Principles and Practice Using C++
 	- it is catch through concept 
 	- the code which find the error which through the exception while the code which handle the error would catch it
 	- it is recommended to through an object 
+	- object should be copyable 
+	- noexcept:
+		- exceptions are allowed to propraged 
+		- if the error was not handled in the function the programm would be terminated
+		- destructors are noexcept be dafault
 	- ex: 
 		- #include <stdexcept>
 		double SafeDivide(double num, double den){
@@ -395,6 +445,9 @@ Programming: Principles and Practice Using C++
 		- catch (...) {
 			cerr << "Error reading or opening file " << fileName << endl;
 			return 1;}
+- function object:
+	- it is an object which has the () operator defined
+	- 
 - containers:
 	- there are 4 types of containers
 	- Sequential:
@@ -416,17 +469,67 @@ Programming: Principles and Practice Using C++
 		std::vector<int>iterator 
 	- int arry[] = {1, 2, 3, 4, /* end */ }; the end refere to past one from the actual range
 	- iteraor has:
-		- begin : return the first element which is a refernce to this element if u made change to this element u change the element in the container
-		- end : return past the end by one
-		- cbegin : const first element
+		- begin() : return the first element which is a refernce to this element if u made change to this element u change the element in the container
+		- end() : return past the end by one
+		- cbegin() : const first element
+		- cend()
+		- all this method can be called on the container to get an iterator 
+		-ex:
+			for auto elem& : coll) {
+				elem = 12 // here element is referenced 
+				}	
+
+	- iterator enables for based for loop where u can get the element from the container
+	auto system_start = chrono::system_clock::now();
 
 - algoritms:
-	- they woron on iterators
+	- they work on on iterators
+	- u can search, replace, sort 
 	- the header file is <algoritms>
-	find:
+	- std::all_of: 
+		-would return true if all of them fit the codition  
+		if (std::all_of(std::cbegin(vec), std::cend(vec), [](int i) { return  i % 2 == 1;  })) {
+		std::cout << "odd \n";}
+	- std::any_of: 
+		- would return true if any element fit the condition 
+	- std::find:
 		- u search if an element is in the containter it take a range 
-		- it return the iteratoe if the iterator is avaliable of the end iterator 
-		- auto it = find(cbegin(myvector),cend(myvector),theElementUareIntertedIn);
+		- it return the iterator / index if the iterator is avaliable of the end iterator 
+		- auto index = find(cbegin(myvector),cend(myvector),theElementUareIntertedIn);
+	- min_element:
+		- to find the minimal element in a container would return an iterator which u need to deference 
+		- ex:
+			auto minpos = min_element(coll.cbegin(),coll.cend());
+			std::cout << *minpos
+	- find_if:
+		- return the first iterator which would return true
+		- ex:
+			auto pos = find_if (coll.cbegin(), coll.cend(), isPrime);
+			- pos here is iterator which u need to dereference in order to get the value 
+	- for_each:
+		- ex:
+			for_each (coll.cbegin(), coll.cend(),print);
+		- u can use it to call also operator()
+		- ex:
+			for_each (coll.cbegin(), coll.cend(), PrintInt());
+			- hier we created object on the fly which then would be called from for_each
+			- it has more benefits as this way u have a way to pass variable in the function as closure and then the function would be called with this value closure in Javascript the same concept
+
+	- std::transform it is used to operator on container and create new create based on a function in the container 
+	- ex:
+		std::transform(vec1.begin(), vec1.end(), std::back_inserter(vec2), std::negate<int>());
+	for (auto& i : vec2) {
+		std::cout << i << "\n";
+	}
+
+	- std::accumlate(vec.begin(), vec.end(), 0);
+
+	- std::bind:
+		- u can use to to provide argument to function which u would call at later time in the future
+		- ex:
+			auto plus10 = std::bind(std::plus<int>(),std::placeholders::_1, 10);
+			std::cout << "+10: " << plus10(7) << std::endl;
+
 - vector:
 	- it is allocated in the heap
 	- it enables dynamic access
@@ -435,6 +538,8 @@ Programming: Principles and Practice Using C++
 		- default: vector<int> intVector; // Creates a vector of ints with zero elements
 		- vector<int> intVector(10, 100); // Creates vector of 10 ints with value 100
 		- vector<int> intVector2{ 1, 2, 3, 4, 5, 6 }; using with initialize list
+		- std::vector<int> vec(10);
+			- that would create vector which has the size of 10 elements
 		- it support random access
 	- to access elements in vectors u can use at or []
 		at: will perform boundary check
@@ -442,11 +547,15 @@ Programming: Principles and Practice Using C++
 		back(): would return a reference to the last element of container 
 		begin(vector): would return the first iterator in the array u have to dereference it
 		end(vector): would return past end element which is the element after the end
+		vector.erase(iteraor): erase the element which has this iterator
+		pop_back():
+			- to delete the last element from the vector u can use pop_back()
+
 	- iterator in vectors:
 		- for (const auto& element : stringVector)
 		- this gives the reference to the element because u used &  any changes in the element would be also inside the vector
 		- without & u takes a copy of the element not the element it self.
-	- if u used begin and end it return an address u have to reference it to change thte element
+	- if u used begin and end it return an address u have to reference it to change the element
 	- to add element:
 		- vec.push_back(myElement)
 		- this makes a copy of the element and woulf be added to the list 
@@ -485,6 +594,13 @@ Programming: Principles and Practice Using C++
 	- it has size method to get the size of the array and it supported random access using [] and at 
 	- std::array< 5, std::string>
 		- array which has 5 elements and all it is elements are integer 
+	- at() : return the element at the index
+	- front() : return the first element
+	- back() : return the last element
+
+- set:
+	- it doesnot allow duplication
+
 - queue:
 	- queue it is a template to support first in first out method (FIFO)
 	- push to add element to the tail 
@@ -495,6 +611,7 @@ Programming: Principles and Practice Using C++
 	- if u want to add an element to the map u use insert which take initalizier list or pair and return pair of the element and bool to represent if the insertion successed
 	- insert_or_assign method would overwrite the element if the element exist u can use [] operator it works as insert_or_assign operator
 	if u want to know if an element exist use find which would return the iterator or end
+
 
 - ternary operator 
 	return t1 > t2 ?  t1 :  t2;
@@ -510,6 +627,129 @@ Programming: Principles and Practice Using C++
 		- u can capture by reference and then the value inside the function would remain the same 
 		- u can capture everything by value, u can use [=] to capture everything
 		- u can capture everything by reference using [&] to capture everything by reference 
+		- u can use std::function tp declare function
+		- ex:
+			- std::function<void(int, float)> f 
+			- f = function1;
+			- f(1,1.0);
+			- here u declared function with the name f which takes 2 args and return nothing
+			- u assifn function1 to it
+			- then u can call it 
+
+- chrono:
+	- it is libaray which has API which can be used to workt with the time 
+	- there are another way to use platform dependent 
+	- why we need chrono:
+		- it has unit like second, minutes, millsecond
+	- Seconds
+		- u can find it under std::chrono::seconds 
+		- u can initalize it using:
+			- seconds s{};
+		- u can implicit to to integer u always has to use inializer list
+		- to get the value of the second u have to use:
+			- s.count();
+		- to pass it to a function u have to use constructor 
+			- function(seconds(3));
+			- function(3s);
+			- function(3); it wont compile
+	- duration it is a way to define period of time
+	- std::chrono::duration<int> sec(20);
+	- std::chrono::duration<double,std::ration<60>> halfMinute(0.5);
+	- to get the start time from a specific point of the code 
+		- auto system_start = chrono::system_clock::now();
+
+- future:
+	- it gives the possibilty to wait on a result
+	- u can fire the event as a backgroud process and get the result when it is available
+	- ex:
+		std::future<int> result1(std::async(func1));
+		int result2 = func2();
+		int result = result1.get() + result2;
+	- u can decide the function should start excute right now 
+		ex: 
+			std::future<long> result1= std::async(std::launch::async, func1);
+	- can can wait on a background thread
+		std::future<...> f(std::async(func));
+		f.wait()
+	- std::this_thread::yield();
+		- it is used to release the thread
+- promise:
+	- it is the opposite of future
+	- it gives u a way to pass data to the function later 
+	- u tell the function that i promise i would provide the data but not right now
+	-	
+- mutexes and lock:
+	std::mutex valMutex;
+	valMutex.lock();
+	valMutex.unlock();
+
+	std::lock_guard<std::mutex> lg(valMutex);
+	- this would unlick by destructor 
+
+	- u can use recursive lock to avoid dead lock 
+		std::recursive_mutex dbMutex;
+		std::lock_guard<std::recursive_mutex> lg(dbMutex);
+		std::lock_guard<std::recursive_mutex> lg(dbMutex);
+
+/*
+-------------------------------------------------------------------------------------
+Style
+*/
+ 
+- u can write a comment that the function can throw an exception if something happens
+	- ex:	
+			/*
+			* saveRecord			*
+			* Saves the given record to the database.
+			*
+			* Parameters:
+			* 	Record& record: the record to save to the database.
+			* Returns: int
+			* 	An integer representing the ID of the saved record.
+			* Throws:
+			* 	DatabaseNotOpenedException if the openDatabase() method has not
+			* 	been called yet.
+			*/
+
+- u can write a comment to a file
+	- ex:
+		/*
+		* Author: marcg
+		* Date: 110412
+		* Feature: PRD version 3, Feature 5.10
+		*/
+
+- u can write to do also:
+	- ex:
+		// TODO: What if setId() throws an exception? – akshayr 110501
+
+- Naming conventation:
+	- counter:
+		- u can use i or j
+	- Data member:
+		- u can use m 
+		ex:
+			- mData or m_Data
+	- static:
+		- u can use s to indicate it is static 
+		-ex:
+			- sLookup
+	- boolen:
+		- u can use is 
+		- ex:
+			- isCompleted 
+
+
+/*
+----------------------------------
+design pattern:
+*/
+
+Adapter:
+	- make interface to adapt to another interface 
+
+- Prototype:
+	- Model object which we can make copy of it, customize it and then use it  
 
 - pairs:
 	- it handles two values as a single unit 
@@ -528,13 +768,8 @@ Programming: Principles and Practice Using C++
  	- boost::array:
  		- u can define a fixed size array using typedef boost::array<char, 4> array4_t;
  		- the first parameter is the type and the second element is the size
- 		
 
 /*
-design pattern 
+----------------------------------
+open CV:
 */
-
-- Prototype:
-	- Model object which we can make copy of it, customize it and then use it 
-	- 
-
