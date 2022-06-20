@@ -511,6 +511,17 @@ Programming: Principles and Practice Using C++
 		- u can capture everything by value, u can use [=] to capture everything
 		- u can capture everything by reference using [&] to capture everything by reference 
 
+- pairs:
+	- it handles two values as a single unit 
+	- ex: woukd be map, unordered_map 
+	- we use key value to represent pairs
+	- it is defined in utility header file 
+	- to access u data u can uswe first and second on the pair 
+	- to create pair
+		- std::pair<int, std::string> p(5, "ahmed");
+
+- smart pointers: 
+
  booster:
  	- boost::any -> provide a generic type which can be integer or string or anything 
  	- boost::variant -> union which can be one of a predefined types  
