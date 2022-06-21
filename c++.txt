@@ -61,6 +61,23 @@ Programming: Principles and Practice Using C++
 		- u cannot compare two struct with each other
 		- u can copy the whole struct by assigning the struct to another struct
 		- u can pass struct both by reference or by value while array is passed only by reference because the name of the array is the address of the first element
+	- pair:
+		- it is a way create 2 element which acts as a pair
+		- std::pair<T1,T2> p
+		- std::pair<T1,T2> p(piecewise_construct, t1, t2) 
+			- create a pair from tuple t1 and t2
+			- std::pair<int,Foo> p2 (piecewise_construct, make_tuple(42), t);
+		- p.first, p.second access the element
+		- u can force to pass reference to the pair 
+		- ex:
+			int i = 0;
+			auto p = std::make_pair(std::ref(i),std::ref(i));
+			p.first++; // i would increase also
+	- tuple:
+		- u can bind more than 2 types to a single unit
+		- auto x = make_tuple(22,"S", 1.1);
+		- tuple<int,float,string> t1(41,6.3,"nico");
+		- std::get<0> = 12;
 
 - template:
 	- it is something like micro
@@ -188,8 +205,18 @@ Programming: Principles and Practice Using C++
 			- for(int i = 0; i < width ; i++){
 				mcelss[i] = new Spreadsheet[height];
 			}
+	- nullptr would call the fuction which is overloaded with pointer
+	ex:
+		void f(int);
+		void f(void*);
+		f(0); // calls f(int)
+		f(NULL); // calls f(int) if NULL is 0, ambiguous otherwise
+		f(nullptr);
+
 	- as a rule always use smart pointers 
-	- unique Pointers are pointer which doesnot have copy constructor
+- unique Pointers: 
+	-	are pointer which doesnot have copy constructor
+	- it is used for exclusive ownership
 	- ex:
 		- auto myUniPointer = make_unique<int>(12)
 		- this would create a pointe and allocate 12 integer size for this pointer
@@ -214,6 +241,13 @@ Programming: Principles and Practice Using C++
 	- ex:
 		- std::shared_ptr<Entity> smartptr1 = std::make_shared<Entity>();
 		- std::shared_ptr<Entity> smartptr2(smartptr1); 
+	- weak_ptr:
+		- it is very useful when u work with circular dependicy
+		- if u have two objects which point to each other u have to use weak pointer for one of them so the object might be deleted an example the father point to the child and the child point to the father
+		- to access weak pointer u have first to check with expire and then use lock on it 
+		- ex:
+			ptr.expire()
+			pt.lock()->sum()  
 - class:
 	- define the class by writing class myclass {};  -> it should end with ; as it is a statment
 	- class has members which is a date member "variable" or  member functions "constructor, destructore or method"
@@ -247,6 +281,7 @@ Programming: Principles and Practice Using C++
 	- u can call size on the list to get the size and u can use loop range based 
 	- for (auto& i : args)
 	- u can call size, end, begin on the initialize list 
+	-  for range is enables on any thing which has begin() and end() and return iterator/ pointer
 - copy constructor:
 	- it takes const reference to the source object
 	- ex: SpreadsheetCell(const SpreadsheetCell& src);
@@ -266,6 +301,7 @@ Programming: Principles and Practice Using C++
 		SpreadsheetCell aThirdCell = myCell; that is a copy constructor as the = is with defination stage
 		aThirdCell = myCell; here it is copy assign as the object was already created before u call the assign operator 
 		- classname& operator=(const classname& rhs); at the end u have to return *this
+		- u have first to make a temperory object store the data and copy the data to it before u delete the object because if the object point to something and u have delete it beforeu copy the program won't work the right way 
 		- when u return from the function in which u return an obect 
 		- the copy construcotr would be so or so invocaed in order to create the obejct which we should return,
 		- then the operator or the copy constrcutor would be invoked to create the other object	
@@ -314,7 +350,6 @@ Programming: Principles and Practice Using C++
 	- if u want to define abstact class u use virtual and = 0
 	ex:
 		-  virtual double& operator[](int) = 0;
-		
 	- a pointer of type base can point to both type base and derived
 	- only method which are declared virtual can be good overwritten in the derived class. In the derived class u delcare the method as virtual and u mark it as override, it works only with pointer to an object.
 	- once method is defined as virtual it is virtual in all derived classes 
@@ -510,10 +545,51 @@ Programming: Principles and Practice Using C++
 		- ex:
 			for_each (coll.cbegin(), coll.cend(),print);
 		- u can use it to call also operator()
+			- ex:
+				for_each (coll.cbegin(), coll.cend(), PrintInt());
+				- hier we created object on the fly which then would be called from for_each
+				- it has more benefits as this way u have a way to pass variable in the function as closure and then the function would be called with this value closure in Javascript the same concept
+		- u can use also method
+			- ex:
+				for_each (coll.cbegin(), coll.cend(), Person::save());
+
+	- copy:
+		- std::vector v1,v2
+		- std::copy(v1.begin(), v1.end(), back_inserter(v2) );
+
+	- remove:
+		- list:
+			- remove the element and move the following element to this position and keep the size the same
+			- ex:
+				remove (coll.begin(), coll.end(),3);
+				pre: 6 5 4 3 2 1 1 2 3 4 5 6
+				post: 6 5 4 2 1 1 2 4 5 6 5 6
+			- if u want to erase the element and change the size:
+			ex:
+				coll.erase (remove(coll.begin(),coll.end(),3),coll.end());
+	replace_if / replace:
+		- u can use it to change the value in container with a new value
+		- std::replace(arr, arr + n, old_val, new_val);
+		- std::replace_if(arr, arr + n, IsOdd, new_val)
+
+	- assign:
+		- this would erase the old values and assign the new value to the container 
 		- ex:
-			for_each (coll.cbegin(), coll.cend(), PrintInt());
-			- hier we created object on the fly which then would be called from for_each
-			- it has more benefits as this way u have a way to pass variable in the function as closure and then the function would be called with this value closure in Javascript the same concept
+			std::vector<int> v1{1,2,3};
+			v1.assign(5,100)
+			- the vector would have 5 elemens and the value would be 100
+		- if u used it with iterator u would get the iterator copied 
+		ex:
+			std::list<Elem> l;
+			std::vector<Elem> coll;
+			coll.assign(l.begin(),l.end());
+			- this would copy the list to the container 
+	- insert:
+		- it is used to insert element or elements to the container 
+	- erase:
+		- it is used to erase an iterator from the container u have to give it an iterator 
+		
+
 
 	- std::transform it is used to operator on container and create new create based on a function in the container 
 	- ex:
@@ -586,8 +662,14 @@ Programming: Principles and Practice Using C++
 	- pop_back: remove the last element in the list
 	- pop_front: remove the first element in the list
 	- splice: u add list to another list starting from a specific point in the first list and the second list would be empty out
+
+- deque:
+	- double ended queue 
+	- u can insert element using push_back and push_front which is the difference between the deque and the vector
+	- 
 - forward_list:
-	- single linked list 
+	- single linked list
+
 - array:
 	- it is allocated in the stack 
 	- it is declared in the header file <array>
@@ -645,7 +727,7 @@ Programming: Principles and Practice Using C++
 		- u can find it under std::chrono::seconds 
 		- u can initalize it using:
 			- seconds s{};
-		- u can implicit to to integer u always has to use inializer list
+		- u can not implicit it to integer u always has to use inializer list
 		- to get the value of the second u have to use:
 			- s.count();
 		- to pass it to a function u have to use constructor 
