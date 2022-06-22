@@ -589,8 +589,6 @@ Programming: Principles and Practice Using C++
 	- erase:
 		- it is used to erase an iterator from the container u have to give it an iterator 
 		
-
-
 	- std::transform it is used to operator on container and create new create based on a function in the container 
 	- ex:
 		std::transform(vec1.begin(), vec1.end(), std::back_inserter(vec2), std::negate<int>());
@@ -626,6 +624,7 @@ Programming: Principles and Practice Using C++
 		vector.erase(iteraor): erase the element which has this iterator
 		pop_back():
 			- to delete the last element from the vector u can use pop_back()
+	- vector is by default passed be value not be reference if u want the vector by passed by reference u have to create a function which is designed to accpet the value be reference
 
 	- iterator in vectors:
 		- for (const auto& element : stringVector)
@@ -694,6 +693,14 @@ Programming: Principles and Practice Using C++
 	- insert_or_assign method would overwrite the element if the element exist u can use [] operator it works as insert_or_assign operator
 	if u want to know if an element exist use find which would return the iterator or end
 
+- pairs:
+	- it handles two values as a single unit 
+	- ex: woukd be map, unordered_map 
+	- we use key value to represent pairs
+	- it is defined in utility header file 
+	- to access u data u can uswe first and second on the pair 
+	- to create pair
+		- std::pair<int, std::string> p(5, "ahmed");
 
 - ternary operator 
 	return t1 > t2 ?  t1 :  t2;
@@ -821,10 +828,19 @@ Style
 		- ex:
 			- isCompleted 
 
+- design:
+	- multil tiered:
+		- u divide the software in layer ex: presentation, logic, data layer
+		- data and presentation communicate only through logic the never communicate with each other directly
+	- MVC:
+		- model, view, control
+
+
+
 
 /*
 ----------------------------------
-design pattern:
+design pattern :
 */
 
 Adapter:
@@ -833,16 +849,7 @@ Adapter:
 - Prototype:
 	- Model object which we can make copy of it, customize it and then use it  
 
-- pairs:
-	- it handles two values as a single unit 
-	- ex: woukd be map, unordered_map 
-	- we use key value to represent pairs
-	- it is defined in utility header file 
-	- to access u data u can uswe first and second on the pair 
-	- to create pair
-		- std::pair<int, std::string> p(5, "ahmed");
 
-- smart pointers: 
 
  booster:
  	- boost::any -> provide a generic type which can be integer or string or anything 
