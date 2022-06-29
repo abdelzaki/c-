@@ -261,9 +261,12 @@ Programming: Principles and Practice Using C++
 		void function2(const& object1) function which wont change the object 
 	- it can be returned from a function also
 
-- access control:
+- access modifier:
 	- there are three types of access controll public, private and protected
-	- the default one is private if u didnot define anything
+	- the default one is a private if u did not define anything
+	- access controller is about who is allowed to call the method or access the member element
+	- protected means the derived class is allowed to call this method or access this member
+	- private means only the base class is allowed to access this member no one else is allowed to perform this action 
 - this keyword:
 	- it represent the the object which instanced the class
 	- if a method takes an object and u want to call this method from the class u use *this
@@ -364,6 +367,15 @@ Programming: Principles and Practice Using C++
 		- data member is deleted 
 		- body of parent destructor is called 
 
+	- public inheritance:
+		- u can use the derived class polymorphically
+		- u can call the protected and the private method of the base class
+		- it is used to implemenet us-a relatiionship
+	- protected and private:
+		- u cannot use the base and derived polymorphically
+		- all the protected and the private member would be protected or private means u can still call them in the derived base but u cannot call them from the derived object
+		- it is used to say that the derived call implement the base class 
+
 - Casting:
 	- up casting is ok means the base pointer or reference points to derived object 
 	- ex:
@@ -455,8 +467,9 @@ Programming: Principles and Practice Using C++
 	- it is recommended to through an object 
 	- object should be copyable 
 	- noexcept:
-		- exceptions are allowed to propraged 
+		- exceptions are not allowed to propraged 
 		- if the error was not handled in the function the programm would be terminated
+		- u add this qualifer when u know that this function wont throw an exception so there is no need for the function to be placed inside try catch block
 		- destructors are noexcept be dafault
 	- ex: 
 		- #include <stdexcept>
@@ -664,6 +677,7 @@ Programming: Principles and Practice Using C++
 
 - deque:
 	- double ended queue 
+	- vector which allows inserting from front and from the end
 	- u can insert element using push_back and push_front which is the difference between the deque and the vector
 	- 
 - forward_list:
@@ -835,9 +849,6 @@ Style
 	- MVC:
 		- model, view, control
 
-
-
-
 /*
 ----------------------------------
 design pattern :
@@ -849,14 +860,34 @@ Adapter:
 - Prototype:
 	- Model object which we can make copy of it, customize it and then use it  
 
+- pimple:
+	- the concept that u declare a class as a private member of another class and then u implement this class in .cpp file and use this implementation in the first file
 
+- observer:
+	- it is about push from data not pulling it
 
- booster:
- 	- boost::any -> provide a generic type which can be integer or string or anything 
- 	- boost::variant -> union which can be one of a predefined types  
- 	- boost::array:
- 		- u can define a fixed size array using typedef boost::array<char, 4> array4_t;
- 		- the first parameter is the type and the second element is the size
+- command:
+	- it is a way to enable do and undo request
+	- u encapselt the request in a form of object
+	- it consists of invoker, command and receiver
+
+- prototype:
+	- 
+
+- best practise:
+	- using wrapper:
+		- limited public interface
+		- u can change the underline implimtation 
+/*
+----------------------------------
+booster:
+*/
+
+- boost::any -> provide a generic type which can be integer or string or anything 
+- boost::variant -> union which can be one of a predefined types  
+- boost::array:
+ 	- u can define a fixed size array using typedef boost::array<char, 4> array4_t;
+ 	- the first parameter is the type and the second element is the size
 
 /*
 ----------------------------------
