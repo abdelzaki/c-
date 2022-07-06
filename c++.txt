@@ -109,9 +109,90 @@ Programming: Principles and Practice Using C++
 		}
 
 - type deducation:
-	- 
+	- Reference function:
+		- we ignore reference means T would never be deduced to ref
+	- ex:
+		template<typename T>
+		void f(T& param)
+		int x = 22 			-> T = int 			-> paramtype = int&
+		const int cx = 22 	-> T = const int 	-> paramtype = const int&
+		const int& rc = 22 	-> T-> const int 	-> paramtype = const int&
 
+	- const reference function
+		- we ignore reference means T would never be deduced to ref
+		- we ignore also constant means T would never be deduced by const
+	- ex:
+		template<typename T>
+		void f(const T& param)
+		int x = 22 			-> T = int 			-> paramtype = const int&
+		const int cx = 22 	-> T = int 			-> paramtype = const int&
+		const int& rc = 22 	-> T-> int 			-> paramtype = const int&
 
+	- universal reference: 
+		- would bind to both R and L value
+	- ex:
+		template<typename T>
+		void f(T&& param)
+		int x = 22 			-> T = int& 		-> paramtype = int&
+		const int cx = 22 	-> T = const int& 	-> paramtype = const int&
+		const int rx = x 	-> T = const int& 	-> paramtype = const int&
+		f(22) 				 -> T-> int 		-> paramtype = const int&&
+
+	- by value 
+		- nothing is considered as the variable would be copied 
+	- ex:
+		template<typename T>
+		void f(const T param)
+		int x = 22 			-> T = int		-> paramtype = int
+		const int cx = 22 	-> T = int		-> paramtype = int
+		const int rx = x 	-> T = int		-> paramtype = int
+		f(22) 				-> T = int		-> paramtype = int	
+
+- decltype:
+	- expression if it is lvalue expression u get lvalue reference 
+	- ex:
+		decltype(arr[0]) -> would return int& as the array is lvalue
+	- if u pass a variable and the variable has name would return the declare type of that variable
+	- ex:
+		int x = 1;
+		decltype(x) would return int
+
+- return type deducation:
+	- auto
+		- function would return the template return type
+		- that would never return reference
+	- decltype(auto) would return decltype rule which has to do with expression would retuurn reference
+
+- move semantic:
+	- we use && which accept lValue and Rvalue and would keep this type 
+	- std::forward is conditonally move so in the template if u passed lvalue it remains l if u passed rvalue it remain r
+
+- function binding:
+	- lvalue parameter:
+		- bind with lvalue reference, template with forward reference, const lvalue  
+		- ex:
+			- Widget w{}
+			- f(w)
+			- f(Widget&)
+			- template<typename T>
+				f(T&&)
+			- f(const Widget&)
+	- const lvalue parameter:
+		- bind with const lvalue ref, forward reference 
+		- const Widget w{}
+			- f(w)
+			- f(const Widget&)
+			- template<typename T>
+				f(T&&)
+			- f(const Widget&)
+	- rvalue :
+		- bind with rvalue, and forwarding reference, const lvalue 
+		- f(getWidget)
+			- f(Widget&&)
+			- f(const Widget&)
+			- template<typename T>
+				f(T&&)
+		
 - Initialization:
 	- there are 4 type pf intialization 
 	T x {a} -> no narrowing down and the best way to go
