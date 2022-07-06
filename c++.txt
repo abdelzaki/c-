@@ -108,6 +108,10 @@ Programming: Principles and Practice Using C++
 			printMessage(args...);
 		}
 
+- type deducation:
+	- 
+
+
 - Initialization:
 	- there are 4 type pf intialization 
 	T x {a} -> no narrowing down and the best way to go
