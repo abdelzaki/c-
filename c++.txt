@@ -978,3 +978,40 @@ booster:
 ----------------------------------
 open CV:
 */
+
+/*
+----------------------------------
+best practise 
+*/
+
+- effective c++ item 2:
+	- use constant instead of #define: because it is easier to debug as with macro it is replace by preprocessing means u wont get enough information to localiaze the error 
+
+- effective c++ item 3:
+	- use constant when it is possible
+	- const pointer and pointer to constant: if the * is left to the constant then the pointer is constant means u cannot make the pointer points to something else ex: *const int x = &y if the * is after constant means the pointer points to a variable and that variable u arenot allowed to change it via this pointer ex: const *int z = *x 
+	- function return constant: not that a big deal 
+	- const member function: would be called on objects which are declared as constant and u can overload method by constaniness this is useful as sometimes u want to have method which could be called on constant object and the same method which could be called on an object which is not constant. 
+	- avoid const overloading: there is a best practise to avoid constant overloading u make cast of the object to be constant and then call the constant method version of the operator 
+
+	- effective c++ item 7:
+		- virtual destrucor
+		- always define the destructor as virtual because if we called delete on based class pointer which point to derived class only the base class part would be deleted leaving part of the code in the heap 
+
+	- effective c++ item 12:
+		- copy constructor copy assigment:
+		- in the derived class should the base class also called to make sure that we have copied everything we need to copy 
+
+	- effective c++ item 27:
+		- casting in c++:
+		- const_cast<T>(expression) would cast away the constaness of an object
+		- dynamic_cast would cast in inheritance hierarchy calculator example 
+		- reinterpret_cast low level cast 
+		- static_cast used to convert for example integer to double
+
+	effective c++ item 28:
+		- donot return reference or pointer to internal private part of the class
+		- if u want to do such thing u have to make the return type constant reference or pointer so the user cannot change it 
+
+	- effective c++ item 32:
+		- public inheritance implement is-a relationship means the object of derviced class has access to all public member of the based calss
