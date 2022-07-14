@@ -1014,4 +1014,10 @@ best practise
 		- if u want to do such thing u have to make the return type constant reference or pointer so the user cannot change it 
 
 	- effective c++ item 32:
-		- public inheritance implement is-a relationship means the object of derviced class has access to all public member of the based calss
+		- public inheritance implement is-a relationship means the object of derviced class has access to all public member of the based class
+
+	- effective c++ item :
+		- typedef
+		- in a template if u want to refere to a type which is a nested class u have to use typedef an example would be to refere to iterator inside template container 
+		- ex : 
+			- typename C::const_iterator iter
