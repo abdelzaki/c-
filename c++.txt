@@ -81,17 +81,23 @@ Programming: Principles and Practice Using C++
 
 - template:
 	- it is something like micro
-	- funtion would be created when we call it 
-	- template<typename T > 
-		function1(T a) {return a;};
+	- function would be created when we call it
+	- define and declare the template
+		- ex: 
+			- template<typename T > 
+			function1(T a) {return a;};
 	- template specializing: 
-		template<>
-		function1(char a) {return a + "s";};
+		- here u say that for this specific type, donot use the template but use this specific function. It is a way to provide fuction overloading 
+		- ex:
+			template<>
+			function1(char a) {return a + "s";};
 	- u can define nonetype template
-		template<int a>
+		- ex:
+			template<int a>
 	- to work by reference 
 		template<typeName T>
 		T& function1(T& a, T&c){return c;};
+	- u can overload template class but not template function
 	- return type deducing 
 		template<typeName T, typeName P>
 		auto function1(T& a, P&c){return c;};
@@ -1016,8 +1022,9 @@ best practise
 	- effective c++ item 32:
 		- public inheritance implement is-a relationship means the object of derviced class has access to all public member of the based class
 
-	- effective c++ item :
-		- typedef
-		- in a template if u want to refere to a type which is a nested class u have to use typedef an example would be to refere to iterator inside template container 
+	- effective c++ item 42 :
+		- typename
+		- in a template if u want to refere to a type which is a nested class u have to use typename. Example would be to refere to iterator inside template container 
 		- ex : 
-			- typename C::const_iterator iter
+			template<class T>
+			- typename T::const_iterator iter
