@@ -502,7 +502,7 @@ Programming: Principles and Practice Using C++
 			- sizeof() -> would give the size of the string + null terminated
 			- u can use extended string to print the string with some features
 				- const char *var = R"-(any thing / \ u can write" with space ) and without )-";
-			- string it automatically conside const char * if u want it to be defined as string u have to add "s add the end
+			- string it automatically consider const char * if u want it to be defined as string u have to add "s add the end
 			- u can convert string to integer using the following methods
 				- std::string_literals;
 				- auto string = "anything"s; -> this would be consided as string
@@ -1028,3 +1028,88 @@ best practise
 		- ex : 
 			template<class T>
 			- typename T::const_iterator iter
+
+/*
+revision
+-----------------------
+*/
+
+- visual studio:
+	- we can use visual studio to compile c++
+	- visual studio define two different things solution and project
+		- solution is a group of project 
+		- project is what we compile and link
+		- project would be under solution 
+		- when we compile project the exectuable would be generated under solution/architet type / debug 
+		- make sure when u adjust the configuration for the solution u choice the right configuration
+
+- data type in c++:
+	- the primitive data types are char, short, int, double, float, bool
+	- double and float use to store floating point number but double can store bigger numbers
+
+- header files:
+	- we use header file to declare variables
+	- there are two ways to call header files 
+	- "" and <>
+		- "" -> to call header files which is relative to the file which i am in
+		- <> -> to call header files which is in absolute path which is defined as standard path to this solution
+		- header files which are in c++ standard donot have .h extension while in c standard has .h extension
+
+- pointer:
+	- it is an integer variable which has an address of another variable
+	- nullptr means the pointer does not point to a valid address 
+	- you cannot dereference a void pointer
+	- doppel pointer means it is a pointer which it is value is the address of another pointer 
+	- using doppel pointer we can make the pointer pointer to another variable 
+	- * has less priority than + so *value++ means dereference the pointer and after it increase the address of the pointer
+
+- reference:
+	- u can use reference to pass value be reference and this way u save memory and time 
+	- if u define the function that it takes reference u pass the variable the normal way and it would be passed by reference 
+
+
+- struct:
+	- it is like a class but have the members as public be default
+
+- class:
+	- it is a type 
+	- it has all member as private by default
+	- the function inside class are called method
+
+- static:
+	- outside a class means this variable is linked internally to this file. No other file can access it
+	- inside a class means it is a class member not instance member and only one version of it exist. if you change it this would affect all other instance.
+	- you cannot access not static member from a static method 
+	- to access a static member you have to declare it outside the class ex: int ClassName::VarName; 
+	to access it also the same way ClassName::VarName = 12;
+
+- enum:
+	- it is a way to group the variables together
+	- you can define the type of the enum using enum Value : char {}
+	- it is not a name space means you can access the variable directly without using the name of the name itself 
+
+- virtual:
+	- virtual allow you to override a method in subclass
+	- pure virtual is interface
+
+- const:
+	- it is a promise that you are not going to change the variable
+	- while using pointer there are two types of constant. pointer which point to constant and constant pointer
+	int *const a  = &x -> this pointer would always point to x 
+	const * int a = &x -> this pointer cannot change the value of x but can point to something else
+	- const method means this method wont change any member value of this object but can change global variable. const object can call only const methods
+	- mutable variable is allowed to be changed inside const method 
+
+- initalize list:
+	- u have to use it to initlize the member of the class. 
+	- the order of initalize is the order in which the member is defined inside the class not the order of it in the inialize list
+
+- ternary operator:
+	- int x = true ? first return : second return;
+
+- explicit:
+	- would prevent c++ from implicit convert the parameter and call the constructor. 
+	- constructor should be called explicitly
+
+- this:
+	- it is a point to const object representing the current object
